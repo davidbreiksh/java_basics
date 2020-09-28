@@ -4,8 +4,11 @@ import java.util.Set;
 import java.util.TreeMap;
 
 public class AbonentList54 {
+
+    private static TreeMap<String, Integer> telephoneDirectory = new TreeMap<>();
+
     public static void main(String[] args) {
-        TreeMap<String, Integer> telephoneDirectory = new TreeMap<>();
+
 
         telephoneDirectory.put("Vladimir", 28817293);
         telephoneDirectory.put("Oleg", 20346203);
@@ -13,8 +16,8 @@ public class AbonentList54 {
 
         Scanner scanner = new Scanner(System.in);
 
-        final String SUBSCRIBERS_NAME = "[a-zA-Z][a-z]*";
-        final String SUBSCIRBERS_NUMBER = "\\d+";
+        final String subscribersName = "[a-zA-Z][a-z]*";
+        final String subscribersNumber = "\\d+";
 
         for (; ; ) {
             String subscribers = scanner.nextLine();
@@ -22,48 +25,44 @@ public class AbonentList54 {
                 System.out.println("Список контактов :");
                 printSubscriberList(telephoneDirectory);
             }
-            if (subscribers.matches(SUBSCIRBERS_NUMBER)) {
+            if (subscribers.matches(subscribersNumber)) {
                 int phone = Integer.parseInt(subscribers);
                 if (telephoneDirectory.containsValue(phone)) {
                     System.out.println("Номер найден в списке контактов :");
-                    Set<String> find = telephoneDirectory.keySet();
-                    for (String item : find) {
-                        if (telephoneDirectory.get(item).equals(phone)) {
-                            System.out.println(item + " " + phone);
-                        }
-                    }
+                    findKeyByValue(phone);
                 }
-            }
-            if (subscribers.matches(SUBSCIRBERS_NUMBER)) {
-                int phone = Integer.parseInt(subscribers);
                 if (!telephoneDirectory.containsValue(phone)) {
                     System.out.println("Номер не найден в списке контактов , запишите имя и создайте контакт");
                     String newName = scanner.nextLine();
                     telephoneDirectory.put(newName, phone);
                 }
             }
-            if (subscribers.matches(SUBSCRIBERS_NAME)) {
+            if (subscribers.matches(subscribersName)) {
                 if (!telephoneDirectory.containsKey(subscribers)) {
                     System.out.println("Имя не найдено в списке контактов , запишите номер телефона и создайте контакт");
                     String phoneNumber = scanner.nextLine();
-                    if (phoneNumber.matches(SUBSCIRBERS_NUMBER)) {
+                    if (phoneNumber.matches(subscribersNumber)) {
                         int phone = Integer.parseInt(phoneNumber);
                         telephoneDirectory.put(subscribers, phone);
-
                     }
-                }
-                if (telephoneDirectory.containsKey(subscribers)) {
+                } else {
                     System.out.println("Имя найдено в списке контактов :");
                     System.out.println(subscribers + " " + telephoneDirectory.get(subscribers));
                 }
             }
         }
     }
-
-    //(subscribers.matches(SUBSCRIBERS_NAME))
     private static void printSubscriberList(Map<String, Integer> map) {
         for (String key : map.keySet()) {
             System.out.println(key + " " + map.get(key));
+        }
+    }
+    private static void findKeyByValue(int phoneNumber) {
+        Set<String> find = telephoneDirectory.keySet();
+        for (String item : find) {
+            if (telephoneDirectory.get(item).equals(phoneNumber)) {
+                System.out.println(item + " " + phoneNumber);
+            }
         }
     }
 }
