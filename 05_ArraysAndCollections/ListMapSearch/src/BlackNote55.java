@@ -27,33 +27,33 @@ public class BlackNote55 {
         HashSet<String> carNumbersHash = new HashSet<>(carNumbers);
         TreeSet<String> carNumberTree = new TreeSet<>(carNumbers);
 
-
-        long time = System.nanoTime();
-
         for (; ; ) {
             System.out.println("Введите номер");
             String string = scanner.nextLine();
-
+            long time = System.nanoTime();
             if (carNumbers.contains(string)) {
                 System.out.println("Метод перебора , время поиска : " + (System.nanoTime() - time) + " наносекунд");
             } else {
                 System.out.println("Номер не найден , время поиска : " + (System.nanoTime() - time) + " наносекунд");
             }
+            long time2 = System.nanoTime();
             int searchedIndex = Collections.binarySearch(carNumbers, string, Collections.reverseOrder());
             if (searchedIndex > -1) {
-                System.out.println("Метод бинарного поиска , время поиска " + (System.nanoTime() - time) + " наносекунд");
+                System.out.println("Метод бинарного поиска , время поиска " + (System.nanoTime() - time2) + " наносекунд");
             } else {
-                System.out.println("Номер не найден , время поиска : " + (System.nanoTime() - time) + " наносекунд");
+                System.out.println("Номер не найден , время поиска : " + (System.nanoTime() - time2) + " наносекунд");
             }
+            long time3 = System.nanoTime();
             if (carNumbersHash.contains(string)) {
-                System.out.println("Метод HashSet , время поиска " + (System.nanoTime() - time) + " наносекунд");
+                System.out.println("Метод HashSet , время поиска " + (System.nanoTime() - time3) + " наносекунд");
             } else {
-                System.out.println("Номер не найден , время поиска : " + (System.nanoTime() - time) + " наносекунд");
+                System.out.println("Номер не найден , время поиска : " + (System.nanoTime() - time3) + " наносекунд");
             }
+            long time4 = System.nanoTime();
             if (carNumberTree.contains(string)) {
-                System.out.println("Метод TreeSet , время поиска " + (System.nanoTime() - time) + " наносекунд");
+                System.out.println("Метод TreeSet , время поиска " + (System.nanoTime() - time4) + " наносекунд");
             } else {
-                System.out.println("Номер не найден , время поиска : " + (System.nanoTime() - time) + " наносекунд");
+                System.out.println("Номер не найден , время поиска : " + (System.nanoTime() - time4) + " наносекунд");
             }
         }
     }
