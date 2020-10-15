@@ -3,29 +3,30 @@ package BankAccount;
 import java.time.LocalDate;
 
 public class DepositAccount extends MainAccount {
+    LocalDate depositDate;
+    LocalDate possibleWithdrawDraw;
+
 
     public DepositAccount(double moneyAmount) {
         super(moneyAmount);
     }
-
-    LocalDate date = localDate.plusMonths(1);
-
+    @Override
     public double checkMoney() {
         return super.checkMoney();
     }
-
+    @Override
     public double depositMoney(double deposit) {
+        depositDate = LocalDate.now();
+        possibleWithdrawDraw = depositDate.plusMonths(1);
         return super.depositMoney(deposit);
 
     }
-
+    @Override
     public double withDrawMoney(double withdraw) {
-        checkDate();
-        return super.withDrawMoney(withdraw);
-    }
-    public void checkDate(){
-        if (date.isBefore(localDate)){
-            System.out.println("Sorry operation failed , you must wait at least 1 month since your last deposit");
-        }
+        LocalDate actualDate = LocalDate.now();
+        if (actualDate.isBefore(possibleWithdrawDraw)) {
+            System.out.println("Not possible");
+            return super.moneyAmount;
+        } else return super.withDrawMoney(withdraw);
     }
 }

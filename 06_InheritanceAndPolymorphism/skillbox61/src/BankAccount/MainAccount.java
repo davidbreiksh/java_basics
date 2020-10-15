@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class MainAccount {
     public double moneyAmount;
-    public LocalDate localDate = LocalDate.now();
+    LocalDate todaysDate = LocalDate.now();
 
     public MainAccount(double moneyAmount) {
         this.moneyAmount = moneyAmount;
@@ -35,7 +35,7 @@ public class MainAccount {
     }
 
     public double depositMoney(double deposit) {
-        System.out.println("Your deposite is " + deposit + " USD" + " , Operation date is : " + localDate);
+        System.out.println("Your deposite is " + deposit + " USD" + " , Operation date is : " + todaysDate);
         moneyAmount = deposit + moneyAmount;
         System.out.println("Total amount is : " + moneyAmount + " USD");
         return moneyAmount;
