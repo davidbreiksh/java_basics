@@ -1,5 +1,6 @@
 package BankAccount;
 
+import java.security.PublicKey;
 import java.time.LocalDate;
 
 public class MainAccount {
@@ -42,11 +43,12 @@ public class MainAccount {
     }
 
     public boolean send(MainAccount receiver, double amount) {
-       if (amount > moneyAmount){
-           return false;
-       }else {
-           moneyAmount = moneyAmount - amount;
-           receiver.moneyAmount = receiver.moneyAmount + amount;
-       }return true;
+        if (amount > moneyAmount) {
+            return false;
+        } else {
+            moneyAmount = moneyAmount - amount;
+            receiver.moneyAmount = receiver.moneyAmount + amount;
+        }
+        return true;
     }
 }
