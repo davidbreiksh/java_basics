@@ -44,10 +44,11 @@ public class MainAccount {
 
     public boolean send(MainAccount receiver, double amount) {
         if (amount > moneyAmount) {
+            System.out.println("Not enough money");
             return false;
         } else {
-            moneyAmount = moneyAmount - amount;
-            receiver.moneyAmount = receiver.moneyAmount + amount;
+            withDrawMoney(amount);
+            receiver.depositMoney(amount);
         }
         return true;
     }
