@@ -1,6 +1,5 @@
 package BankAccount;
 
-import java.security.PublicKey;
 import java.time.LocalDate;
 
 public class MainAccount {
@@ -24,7 +23,7 @@ public class MainAccount {
         return moneyAmount;
     }
 
-    public double withDrawMoney(double withdraw) {
+    public boolean withDrawMoney(double withdraw) {
         System.out.println("How much money would you like to withdraw ? " + withdraw + " USD");
         if (withdraw > moneyAmount) {
             System.out.println("Sorry , your balance is too low");
@@ -32,24 +31,25 @@ public class MainAccount {
             double balance = moneyAmount - withdraw;
             System.out.println("Your balance is : " + balance + " USD");
         }
-        return moneyAmount;
+        System.out.println(moneyAmount);
+        return true;
     }
 
     public double depositMoney(double deposit) {
-        System.out.println("Your deposite is " + deposit + " USD" + " , Operation date is : " + todaysDate);
+        System.out.println("Your deposit is " + deposit + " USD" + " , Operation date is : " + todaysDate);
         moneyAmount = deposit + moneyAmount;
         System.out.println("Total amount is : " + moneyAmount + " USD");
         return moneyAmount;
     }
 
     public boolean send(MainAccount receiver, double amount) {
+        withDrawMoney(amount);
         if (amount > moneyAmount) {
             System.out.println("Not enough money");
             return false;
-        } else {
-            withDrawMoney(amount);
-            receiver.depositMoney(amount);
         }
+        withDrawMoney(amount);
+        receiver.depositMoney(amount);
         return true;
     }
 }

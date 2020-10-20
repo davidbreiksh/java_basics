@@ -24,10 +24,12 @@ public class DepositAccount extends MainAccount {
     }
 
     @Override
-    public double withDrawMoney(double withdraw) {
+    public boolean withDrawMoney(double withdraw) {
         if (LocalDate.now().isBefore(depositDate.plusMonths(MONTH_DELAY_WITHDRAW))) {
             System.out.println("Not possible");
+            return false;
         }
-        return super.withDrawMoney(withdraw);
+        System.out.println(super.withDrawMoney(withdraw));
+        return true;
     }
 }
