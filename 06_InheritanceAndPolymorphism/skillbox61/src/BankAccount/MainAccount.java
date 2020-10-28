@@ -27,12 +27,12 @@ public class MainAccount {
         System.out.println("How much money would you like to withdraw ? " + withdraw + " USD");
         if (withdraw > moneyAmount) {
             System.out.println("Sorry , your balance is too low");
-        } else {
-            double balance = moneyAmount - withdraw;
-            System.out.println("Your balance is : " + balance + " USD");
+            return false;
         }
-        System.out.println(moneyAmount);
+        System.out.println("Your balance is : " + moneyAmount + " USD");
+        moneyAmount = moneyAmount - withdraw;
         return true;
+
     }
 
     public double depositMoney(double deposit) {
@@ -43,8 +43,7 @@ public class MainAccount {
     }
 
     public boolean send(MainAccount receiver, double amount) {
-        withDrawMoney(amount);
-        if (amount > moneyAmount) {
+        if (!withDrawMoney(amount)) {
             System.out.println("Not enough money");
             return false;
         }

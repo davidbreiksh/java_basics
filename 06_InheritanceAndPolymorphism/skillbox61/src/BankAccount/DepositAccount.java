@@ -25,10 +25,11 @@ public class DepositAccount extends MainAccount {
 
     @Override
     public boolean withDrawMoney(double withdraw) {
-        if (LocalDate.now().isBefore(depositDate.plusMonths(MONTH_DELAY_WITHDRAW))) {
-            System.out.println("Not possible");
+        if (LocalDate.now().isBefore(depositDate.plusMonths(MONTH_DELAY_WITHDRAW)) || withdraw > moneyAmount) {
+            System.out.println("Not enough money (deposit account)");
             return false;
         }
+        moneyAmount = moneyAmount - withdraw;
         System.out.println(super.withDrawMoney(withdraw));
         return true;
     }

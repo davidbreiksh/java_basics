@@ -10,12 +10,13 @@ public class PercentageAccount extends MainAccount {
 
     @Override
     public boolean withDrawMoney(double withdraw) {
-        if (withdraw + (withdraw * PERCENTAGE_OF_WITHDRAW) > moneyAmount){
-            System.out.println("Not enough money");
+        if (withdraw + (withdraw * PERCENTAGE_OF_WITHDRAW) > moneyAmount) {
+            System.out.println("Not enough money (percentage account)");
             return false;
         }
-        System.out.println("Commission is 1% : " + withdraw * PERCENTAGE_OF_WITHDRAW + " USD");
         System.out.println(super.withDrawMoney(withdraw + (withdraw * PERCENTAGE_OF_WITHDRAW)));
+        System.out.println("Commission is 1% : " + withdraw * PERCENTAGE_OF_WITHDRAW + " USD");
+        moneyAmount = moneyAmount - (withdraw + (withdraw * PERCENTAGE_OF_WITHDRAW));
         return true;
     }
 }
