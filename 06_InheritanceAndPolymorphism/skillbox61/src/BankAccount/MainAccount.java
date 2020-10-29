@@ -47,7 +47,6 @@ public class MainAccount {
             System.out.println("Not enough money");
             return false;
         }
-        withDrawMoney(amount);
         receiver.depositMoney(amount);
         return true;
     }
