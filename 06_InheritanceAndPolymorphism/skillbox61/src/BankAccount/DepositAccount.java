@@ -3,7 +3,7 @@ package BankAccount;
 import java.time.LocalDate;
 
 public class DepositAccount extends MainAccount {
-    LocalDate depositDate;
+    LocalDate depositDate = LocalDate.MIN;
     final int MONTH_DELAY_WITHDRAW = 1;
 
 
