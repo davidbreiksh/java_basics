@@ -2,7 +2,7 @@ package BankAccount;
 
 public class PercentageAccount extends MainAccount {
 
-    final double PERCENTAGE_OF_WITHDRAW = 0.01;
+    private final double PERCENTAGE_OF_WITHDRAW = 0.01;
 
     public PercentageAccount(double moneyAmount) {
         super(moneyAmount);

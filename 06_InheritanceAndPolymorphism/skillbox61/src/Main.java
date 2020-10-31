@@ -7,9 +7,8 @@ public class Main {
         MainAccount mainAccount = new MainAccount(200.0);
 
         DepositAccount depositAccount = new DepositAccount(300);
+        depositAccount.depositMoney(100);
 
         PercentageAccount percentageAccount = new PercentageAccount(500);
-        depositAccount.send(percentageAccount , 100);
-
     }
 }

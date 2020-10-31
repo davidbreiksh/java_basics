@@ -3,8 +3,8 @@ package BankAccount;
 import java.time.LocalDate;
 
 public class MainAccount {
-    public double moneyAmount;
-    LocalDate todaysDate = LocalDate.now();
+    protected double moneyAmount;
+    private LocalDate todaysDate = LocalDate.now();
 
     public MainAccount(double moneyAmount) {
         this.moneyAmount = moneyAmount;
