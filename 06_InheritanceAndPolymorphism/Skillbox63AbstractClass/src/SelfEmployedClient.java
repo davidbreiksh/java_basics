@@ -3,7 +3,7 @@ public class SelfEmployedClient extends Client {
     private final double BIG_COMMISSION = 0.01;
     private final double SMALL_COMMISSION = 0.005;
     private double commission;
-    private double finalSum;
+    private final int MONEY_AMOUNT = 1000;
 
     @Override
     public double checkClientsAccount() {
@@ -13,28 +13,20 @@ public class SelfEmployedClient extends Client {
 
     @Override
     public double depositMoney(double deposit) {
-        System.out.println("Какую сумму вы хотите внести на счет ? , ваша сумма : " + deposit + " RUB");
-        if (deposit >= 1000) {
+        if (deposit >= MONEY_AMOUNT) {
             commission = deposit * SMALL_COMMISSION;
-            finalSum = deposit - commission;
-            System.out.println("Комиссия за операцию : " + commission + " Рублей.Сумма с учетом комиссии : " + finalSum + " RUB");
-            return clientAccount = clientAccount + finalSum;
+            System.out.println("Комиссия за операцию : " + commission + " Рублей.Сумма с учетом комиссии : " + (deposit - commission) + " RUB");
+            return clientAccount = clientAccount + (deposit - commission);
         }
-        if (deposit < 1000) {
+        if (deposit < MONEY_AMOUNT) {
             commission = deposit * BIG_COMMISSION;
-            finalSum = deposit - commission;
-            System.out.println("Комиссия за операцию : " + commission + " Рублей.Сумма с учетом комиссии : " + finalSum + " RUB");
+            System.out.println("Комиссия за операцию : " + commission + " Рублей.Сумма с учетом комиссии : " + (deposit - commission) + " RUB");
         }
-        return clientAccount = clientAccount + finalSum;
+        return clientAccount = clientAccount + (deposit - commission);
     }
 
     @Override
     public double withdrawMoney(double withdraw) {
-        System.out.println("Какую сумму вы хотите снять со счета ? , ваша сумма : " + withdraw + " RUB");
-        if (withdraw > clientAccount) {
-            System.out.println("У вас недостаточно средств");
-            return clientAccount;
-        }
-        return clientAccount = clientAccount - withdraw;
+        return super.withdrawMoney(withdraw);
     }
 }

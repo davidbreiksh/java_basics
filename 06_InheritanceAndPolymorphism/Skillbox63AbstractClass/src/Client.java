@@ -5,7 +5,16 @@ public abstract class Client {
 
     public abstract double checkClientsAccount();
 
-    public abstract double depositMoney(double deposit);
+    public double depositMoney(double deposit) {
+        System.out.println("Какую сумму вы хотите внести на счет ? , ваша сумма : " + deposit + " RUB");
+        return clientAccount = clientAccount + deposit;
+    }
 
-    public abstract double withdrawMoney(double withdraw);
+    public double withdrawMoney(double withdraw) {
+        if (withdraw > clientAccount) {
+            System.out.println("У вас недостаточно средств");
+            return clientAccount;
+        }
+        return clientAccount = clientAccount - withdraw;
+    }
 }
