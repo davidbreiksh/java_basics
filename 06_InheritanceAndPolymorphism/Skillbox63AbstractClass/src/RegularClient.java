@@ -2,7 +2,7 @@ public class RegularClient extends Client {
 
     @Override
     public double checkClientsAccount() {
-        System.out.println(clientAccount);
+        System.out.println("Остаток на счете : " + clientAccount);
         return clientAccount;
     }
 
@@ -13,6 +13,7 @@ public class RegularClient extends Client {
 
     @Override
     public double withdrawMoney(double withdraw) {
+        System.out.println("Сумма снятия : " + withdraw + " RUB");
         return super.withdrawMoney(withdraw);
     }
 }
