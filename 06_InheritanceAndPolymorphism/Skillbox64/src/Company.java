@@ -2,40 +2,36 @@ import java.util.*;
 
 public class Company {
 
-    Manager manager;
+    //Manager manager = new Manager();
 
-    List<Employee> employeeList = new ArrayList<>();
-
-    double companyIncome = (int) (Math.random() * (140000 - 115000) + 115000);
-    public Object Manager;
+    public List<Employee> employeeList = new ArrayList<>();
 
     public void hire(Employee employee) {
         employee.setCompany(this);
         employeeList.add(employee);
     }
 
-    public void hireAll(Employee employee, int employeeAmount) {
-        for (int a = 0; a <= employeeAmount - 1; a++) {
-            employeeList.add(employee);
-        }
-        System.out.println(employeeList.size()+ " Колличесиво сотрудников");
+    public void hireAll(List<Employee> employees) {
+        employeeList.addAll(employees);
     }
 
-    public void fire(Company company, int percentOfEmployees) {
-        Random random = new Random();
-        for (int a = 0; a <= employeeList.size() * percentOfEmployees / 100; a++) {
-            Employee firedEmployee = employeeList.get(random.nextInt(employeeList.size()));
-            employeeList.remove(firedEmployee);
+    public void fire(int percentOfEmployees) {
+        for (int a = 0; a <= employeeList.size() -1; a++) {
+            employeeList.remove(employeeList.size() * percentOfEmployees /100);
         }
-        System.out.println(employeeList.size() + " Колличесиво сотрудников");
+        System.out.println("Столько % сотрудников было уволено : " + percentOfEmployees + "%");
     }
 
     public void getIncome() {
-        int managersCount = Collections.frequency(employeeList, manager);
-        for (int a = 0; a <= managersCount; a++) {
-            companyIncome += companyIncome;
-            System.out.println("Общий доход компании " + companyIncome + " рублей");
+        double totalIncome = 0;
+        for (int a = 0; a <= employeeList.size() - 1; a++) {
+            totalIncome += employeeList.get(a).getIncome();
         }
+        System.out.println("Общий доход компании " + totalIncome + " рублей");
+    }
+
+    public void checkSize() {
+        System.out.println("Кол-во сотрудников " + employeeList.size());
     }
 
     public ArrayList<Employee> getTopSalaryStaff(int count) {
@@ -49,7 +45,7 @@ public class Company {
     @Override
     public String toString() {
         return "Company{" +
-                "Manager=" + Manager +
+                //"Manager=" + Manager +
                 "EmployeeList=" + employeeList +
                 //"companyIncome=" + income +
                 ", EmployeeList=" + employeeList +
