@@ -1,9 +1,17 @@
-public class Operator implements Employee {
+public class Operator implements Employee, Comparable<Employee> {
 
-    final int OPERATOR_SALARY = 50000;
+    Operator operator;
+
+    int OPERATOR_SALARY = 50000;
+    String rub = "\u0584";
+
+    Operator() {
+        getMonthSalary();
+    }
 
     @Override
     public double getMonthSalary() {
+        System.out.println("Зарплата оператора " + OPERATOR_SALARY + rub);
         return OPERATOR_SALARY;
     }
 
@@ -13,7 +21,13 @@ public class Operator implements Employee {
     }
 
     @Override
+    public int compareTo(Employee employee) {
+        return Double.compare(getMonthSalary(), employee.getMonthSalary());
+    }
+
+    @Override
     public String toString() {
         return "Operator";
     }
+
 }
