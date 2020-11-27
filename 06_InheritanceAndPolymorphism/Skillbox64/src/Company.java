@@ -1,13 +1,10 @@
 import java.util.*;
+
 public class Company {
 
-    String rub = "\u0584";
-    long totalIncome = 0;
+    public List<Employee> employeeList = new ArrayList<>();
 
     Employee employee;
-    Company company;
-
-    public List<Employee> employeeList = new ArrayList<>();
 
     public void hire(Employee employee) {
         employee.setCompany(this);
@@ -15,42 +12,39 @@ public class Company {
     }
 
     public void hireAll(List<Employee> employees) {
-        employeeList.addAll(employees);
-    }
-
-    public void fire(int percentOfEmployees) {
-        for (int a = 0; a <= employeeList.size() - 1; a++) {
-            employeeList.remove(employeeList.size() * (percentOfEmployees / 100));
+        for (Employee employee : employees) {
+            hire(employee);
         }
-        System.out.println("Столько % сотрудников было уволено : " + percentOfEmployees + "%");
+        System.out.println("Колличество сотрудников " + employeeList.size());
     }
 
-    public void getIncome() {
-        for (int a = 0; a <= employeeList.size() - 1; a++) {
-            totalIncome += employeeList.get(a).getIncome();
+    public void fire(int amountOfFiredEmployee) {
+        Random random = new Random();
+        if (amountOfFiredEmployee > 0 && amountOfFiredEmployee < employeeList.size()) {
+            for (int a = 0; a < amountOfFiredEmployee; a++) {
+                employee = employeeList.get(random.nextInt(employeeList.size()));
+                employeeList.remove(employee);
+            }
+            System.out.println("Было уволено сотрудников " + amountOfFiredEmployee);
+            System.out.println("Колличество сотрудников " + employeeList.size());
+        } else {
+            System.out.println("Неверное колличесвто сотурдников");
         }
-        System.out.println("Общий доход компании " + totalIncome + rub);
     }
 
-    public void setTotalIncome(long totalIncome) {
-        this.totalIncome = totalIncome;
-    }
-
-    long getTotalIncome() {
-        return totalIncome;
+    public double getIncome() {
+        double income = 0D;
+        for (Employee value : employeeList) {
+            income += value.getIncome();
+        }
+        return income;
     }
 
     public ArrayList<Employee> getTopSalaryStaff(int count) {
-        Collections.sort(employeeList);
-        ArrayList<Employee> salaryList = new ArrayList<>();
-        for (int a = 0 ; a <= count ; a ++){
-            employeeList.addAll(salaryList);
-        }
-        for (Employee employee : employeeList){
-            System.out.println(salaryList);
-        }
-
-        return salaryList;
+        Comparator comparator = new ObjectsComparator();
+        Collections.sort(employeeList, comparator);
+        ArrayList<Employee> sorted = new ArrayList<>(employeeList.subList(0, count));
+        return sorted;
     }
 
     public ArrayList<Employee> getLowestSalaryStaff(int count) {

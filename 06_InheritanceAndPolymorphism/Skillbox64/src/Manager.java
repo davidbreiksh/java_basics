@@ -1,6 +1,4 @@
-public class Manager implements Employee , Comparable<Employee> {
-
-    String rub = "\u0584";
+public class Manager implements Employee {
 
     private Company company;
 
@@ -8,10 +6,9 @@ public class Manager implements Employee , Comparable<Employee> {
     double MANAGER_SALARY = 100000;
     final double BONUS_PERCENT = 0.05;
 
-
     Manager() {
         getIncome();
-        getMonthSalary();
+        //getMonthSalary();
     }
 
     @Override
@@ -22,7 +19,7 @@ public class Manager implements Employee , Comparable<Employee> {
     @Override
     public double getMonthSalary() {
         MANAGER_SALARY = MANAGER_SALARY + (companyIncome * BONUS_PERCENT);
-        System.out.println("Зарплата менеджера " + MANAGER_SALARY + rub);
+        System.out.println("Зарплата менеджера " + MANAGER_SALARY + " рублей");
         return MANAGER_SALARY;
     }
 
@@ -33,7 +30,7 @@ public class Manager implements Employee , Comparable<Employee> {
 
     @Override
     public int compareTo(Employee employee) {
-        return Double.compare(getMonthSalary(), employee.getMonthSalary());
+        return Double.compare(this.getMonthSalary(), employee.getMonthSalary());
     }
 
     @Override

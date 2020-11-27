@@ -1,28 +1,26 @@
-public class Operator implements Employee, Comparable<Employee> {
+public class Operator implements Employee{
 
-    Operator operator;
-
-    int OPERATOR_SALARY = 50000;
-    String rub = "\u0584";
+    double OPERATOR_SALARY = 50000;
+    Company company;
 
     Operator() {
-        getMonthSalary();
+        //getMonthSalary();
     }
 
     @Override
     public double getMonthSalary() {
-        System.out.println("Зарплата оператора " + OPERATOR_SALARY + rub);
+        System.out.println("Зарплата оператора " + OPERATOR_SALARY + " рублей");
         return OPERATOR_SALARY;
     }
 
     @Override
     public void setCompany(Company company) {
-
+        this.company = company;
     }
 
     @Override
     public int compareTo(Employee employee) {
-        return Double.compare(getMonthSalary(), employee.getMonthSalary());
+        return Double.compare(this.getMonthSalary(), employee.getMonthSalary());
     }
 
     @Override
