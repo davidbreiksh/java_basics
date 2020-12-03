@@ -40,24 +40,28 @@ public class Company {
         return income;
     }
 
-    public ArrayList<Employee> getTopSalaryStaff(int count) {
-        Comparator comparator = new ObjectsComparator();
-        Collections.sort(employeeList, comparator);
-        ArrayList<Employee> sorted = new ArrayList<>(employeeList.subList(0, count));
-        return sorted;
+    public List<Employee> getTopSalaryStaff(int count) {
+        Comparator<Employee> comparator = new EmployeeComparator();
+        employeeList.sort(comparator.reversed());
+        if (count > employeeList.size() || count <= 0) {
+            return employeeList;
+        }
+        return employeeList.subList(0, count);
     }
 
-    public ArrayList<Employee> getLowestSalaryStaff(int count) {
-        return null;
+    public List<Employee> getLowestSalaryStaff(int count) {
+        Comparator<Employee> comparator = new EmployeeComparator();
+        employeeList.sort(comparator);
+        if (count > employeeList.size() || count <= 0){
+            return employeeList;
+        }
+        return employeeList.subList(0 , count);
     }
 
     @Override
     public String toString() {
         return "Company{" +
-                //"Manager=" + Manager +
                 "EmployeeList=" + employeeList +
-                //"companyIncome=" + income +
-                ", EmployeeList=" + employeeList +
                 '}';
     }
 }

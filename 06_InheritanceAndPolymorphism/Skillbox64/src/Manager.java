@@ -7,8 +7,6 @@ public class Manager implements Employee {
     final double BONUS_PERCENT = 0.05;
 
     Manager() {
-        getIncome();
-        //getMonthSalary();
     }
 
     @Override
@@ -19,8 +17,7 @@ public class Manager implements Employee {
     @Override
     public double getMonthSalary() {
         MANAGER_SALARY = MANAGER_SALARY + (companyIncome * BONUS_PERCENT);
-        System.out.println("Зарплата менеджера " + MANAGER_SALARY + " рублей");
-        return MANAGER_SALARY;
+        return Math.ceil(MANAGER_SALARY);
     }
 
     @Override
@@ -30,11 +27,11 @@ public class Manager implements Employee {
 
     @Override
     public int compareTo(Employee employee) {
-        return Double.compare(this.getMonthSalary(), employee.getMonthSalary());
+       return Double.compare(this.getMonthSalary(), employee.getMonthSalary());
     }
 
     @Override
     public String toString() {
-        return "Manager";
+        return "Manager " + getMonthSalary();
     }
 }
