@@ -17,11 +17,6 @@ public class Operator implements Employee {
     }
 
     @Override
-    public int compareTo(Employee employee) {
-        return Double.compare(this.getMonthSalary(), employee.getMonthSalary());
-    }
-
-    @Override
     public String toString() {
         return "Operator " + getMonthSalary();
     }

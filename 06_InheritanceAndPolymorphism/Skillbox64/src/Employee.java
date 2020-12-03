@@ -1,4 +1,4 @@
-public interface Employee extends Comparable<Employee>{
+public interface Employee{
 
     void setCompany(Company company);
     double getMonthSalary();

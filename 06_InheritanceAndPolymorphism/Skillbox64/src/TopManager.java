@@ -29,11 +29,6 @@ public class TopManager implements Employee {
     }
 
     @Override
-    public int compareTo(Employee employee) {
-        return Double.compare(this.getMonthSalary(), employee.getMonthSalary());
-    }
-
-    @Override
     public String toString() {
         return "TopManager " + getMonthSalary();
     }

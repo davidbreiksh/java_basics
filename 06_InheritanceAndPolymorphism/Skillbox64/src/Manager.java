@@ -16,18 +16,12 @@ public class Manager implements Employee {
 
     @Override
     public double getMonthSalary() {
-        MANAGER_SALARY = MANAGER_SALARY + (companyIncome * BONUS_PERCENT);
-        return Math.ceil(MANAGER_SALARY);
+        return Math.ceil(MANAGER_SALARY + (companyIncome * BONUS_PERCENT));
     }
 
     @Override
     public double getIncome() {
         return companyIncome;
-    }
-
-    @Override
-    public int compareTo(Employee employee) {
-       return Double.compare(this.getMonthSalary(), employee.getMonthSalary());
     }
 
     @Override
