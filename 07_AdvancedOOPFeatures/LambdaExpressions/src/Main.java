@@ -15,12 +15,18 @@ public class Main {
 
     public static void main(String[] args) throws ParseException {
         ArrayList<Employee> staff = loadStaffFromFile();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, 2017);
-        // Collections.sort(staff, Comparator.comparing(Employee::getSalary).thenComparing(Employee::getName));
-        //staff.forEach(System.out::println);
+        Calendar limitOne = Calendar.getInstance();
+        limitOne.set(2017 , Calendar.JANUARY, 1);
 
-        staff.stream().filter(e -> e.dateToCalendar(e.workStart) == calendar)
+        Calendar limitTwo = Calendar.getInstance();
+        limitTwo.set(2019 , Calendar.JANUARY , 1);
+
+        Collections.sort(staff, Comparator.comparing(Employee::getSalary).thenComparing(Employee::getName));
+        staff.forEach(System.out::println);
+
+        System.out.println();
+
+        staff.stream().filter(e -> e.dateToCalendar().before(limitTwo) && e.dateToCalendar().after(limitOne))
                 .max(Comparator.comparing(Employee::getSalary))
                 .ifPresent(System.out::println);
     }
