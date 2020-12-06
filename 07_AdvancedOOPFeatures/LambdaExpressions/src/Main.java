@@ -4,20 +4,25 @@ import java.text.CollationElementIterator;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
+
     private static String staffFile = "data/staff.txt";
     private static String dateFormat = "dd.MM.yyyy";
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws ParseException {
         ArrayList<Employee> staff = loadStaffFromFile();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2017);
+        // Collections.sort(staff, Comparator.comparing(Employee::getSalary).thenComparing(Employee::getName));
+        //staff.forEach(System.out::println);
 
-        Collections.sort(staff, Comparator.comparing(Employee::getSalary).thenComparing(Employee::getName));
-
-        for (Employee employee : staff) {
-            System.out.println(employee);
-        }
+        staff.stream().filter(e -> e.dateToCalendar(e.workStart) == calendar)
+                .max(Comparator.comparing(Employee::getSalary))
+                .ifPresent(System.out::println);
     }
 
     private static ArrayList<Employee> loadStaffFromFile() {

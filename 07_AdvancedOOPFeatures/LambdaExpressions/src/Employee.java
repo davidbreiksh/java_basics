@@ -1,11 +1,20 @@
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Employee
 {
     private String name;
     private Integer salary;
-    private Date workStart;
+    public Date workStart;
+
+    public Calendar dateToCalendar (Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
+    }
 
     public Employee(String name, Integer salary, Date workStart)
     {
