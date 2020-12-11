@@ -1,3 +1,6 @@
+import Exceptions.WrongEmailFormatException;
+import Exceptions.WrongPhoneNumberException;
+
 import java.util.Scanner;
 
 public class Main {
@@ -9,12 +12,11 @@ public class Main {
             commandExamples;
     private static String helpText = "Command examples:\n" + commandExamples;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         CustomerStorage executor = new CustomerStorage();
 
         for (; ; ) {
-
             try {
                 String command = scanner.nextLine();
                 String[] tokens = command.split("\\s+", 2);
@@ -32,7 +34,7 @@ public class Main {
                 } else {
                     System.out.println(commandError);
                 }
-            } catch (addCustomerException add) {
+            } catch (WrongEmailFormatException | WrongPhoneNumberException | IllegalArgumentException | ArrayIndexOutOfBoundsException add) {
                 System.out.println(add.getMessage());
             }
         }
