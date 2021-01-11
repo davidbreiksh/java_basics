@@ -1,7 +1,9 @@
 import core.Line;
 import core.Station;
 import junit.framework.TestCase;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RouteCalculatorTest extends TestCase {
@@ -75,30 +77,36 @@ public class RouteCalculatorTest extends TestCase {
         super.setUp();
     }
 
-    public void testGetShortestRoute1() {
+    public void testShortestRouteOnOneLineWithoutConnection() {
         List<Station> actual = calc.getShortestRoute(stationIndex.getStation("Шоколадная", 1),
                 stationIndex.getStation("Конфетная", 1));
-        List<Station> expected = firstRoute;
-        assertEquals(expected, actual);
+        assertEquals(firstRoute, actual);
+
+        List<Station> reversedActual = calc.getShortestRoute(stationIndex.getStation("Конфетная", 1),
+                stationIndex.getStation("Шоколадная", 1));
+        Collections.reverse(firstRoute);
+        assertEquals(firstRoute, reversedActual);
+
     }
 
-    public void testGetShortestRoute2() {
+
+    public void testShortestRouteWithOneConnection() {
         List<Station> actual = calc.getShortestRoute(stationIndex.getStation("Шоколадная", 1),
                 stationIndex.getStation("Говяжья", 2));
-        List<Station> expected = secondRoute;
-        assertEquals(expected, actual);
+        assertEquals(secondRoute, actual);
     }
 
-    public void testGetShortestRoute3() {
+    public void testShortestRouteWithTwoConnections() {
         List<Station> actual = calc.getShortestRoute(stationIndex.getStation("Шоколадная", 1),
                 stationIndex.getStation("Вишневая", 3));
-        List<Station> expected = thirdRoute;
-        assertEquals(expected, actual);
+        assertEquals(thirdRoute, actual);
     }
 
     public void testCalculateDuration() {
         double actual = RouteCalculator.calculateDuration(firstRoute);
         double expected = 2.5;
         assertEquals(expected, actual);
+
+        assertEquals(actual , expected);
     }
 }
