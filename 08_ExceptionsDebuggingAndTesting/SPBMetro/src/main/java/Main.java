@@ -24,26 +24,33 @@ public class Main {
 
     public static void main(String[] args) {
 
-        searchLogger = LogManager.getRootLogger();
-        inputErrorLogger = LogManager.getRootLogger();
-        exceptionLogger = LogManager.getRootLogger();
+        searchLogger = LogManager.getLogger("SearchFile");
+        inputErrorLogger = LogManager.getLogger("InputError");
+        exceptionLogger = LogManager.getLogger("Exceptions");
 
         RouteCalculator calculator = getRouteCalculator();
 
         System.out.println("Программа расчёта маршрутов метрополитена Санкт-Петербурга\n");
         scanner = new Scanner(System.in);
         for (; ; ) {
-            Station from = takeStation("Введите станцию отправления:");
-            searchLogger.info("Введите станцию отправления: " + from);
-            Station to = takeStation("Введите станцию назначения:");
-            searchLogger.info("Введите станцию отправления: " + to);
 
-            List<Station> route = calculator.getShortestRoute(from, to);
-            System.out.println("Маршрут:");
-            printRoute(route);
+            try {
 
-            System.out.println("Длительность: " +
-                    RouteCalculator.calculateDuration(route) + " минут");
+                Station from = takeStation("Введите станцию отправления:");
+                searchLogger.info("Введите станцию отправления: " + from);
+                Station to = takeStation("Введите станцию назначения:");
+                searchLogger.info("Введите станцию отправления: " + to);
+
+                List<Station> route = calculator.getShortestRoute(from, to);
+                System.out.println("Маршрут:");
+                printRoute(route);
+
+                System.out.println("Длительность: " +
+                        RouteCalculator.calculateDuration(route) + " минут");
+
+            } catch (Exception exception) {
+                exceptionLogger.error(exception);
+            }
         }
     }
 
