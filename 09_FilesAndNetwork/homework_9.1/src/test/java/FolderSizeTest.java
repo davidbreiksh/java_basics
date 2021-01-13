@@ -2,6 +2,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,7 +33,7 @@ public class FolderSizeTest {
 
     @Test
     @DisplayName("Подсчет размера всех файлов в директории без поддиректорий")
-    void testFilesSizeInPlainDirectory()  {
+    void testFilesSizeInPlainDirectory() throws IOException {
         List<Path> files = fillDirectory(tempDirectory);
         writeContent(files);
 
