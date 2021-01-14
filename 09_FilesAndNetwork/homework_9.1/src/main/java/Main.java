@@ -11,7 +11,7 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             String pathToFolder = scanner.nextLine();
 
-            System.out.println("Размер файлов в папке " + pathToFolder + " " + FileUtils.calculateFolderSize(pathToFolder) + " MB");
+            FileUtils.calculateFolderSize(pathToFolder);
         } catch (Exception e) {
             e.printStackTrace();
         }

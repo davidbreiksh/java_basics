@@ -1,12 +1,12 @@
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class FileUtils {
 
-    public static long calculateFolderSize(String path) throws FileNotFoundException {
+    public static long calculateFolderSize(String path) throws IOException {
 
         long totalSize = 0;
-        long convertToMB = 1048576;
+        int subDirectories = 0;
 
         File folder = new File(path);
         File[] filesInFolder = null;
@@ -17,11 +17,33 @@ public class FileUtils {
             System.out.println("Не папка");
         }
 
+
         if (filesInFolder != null && filesInFolder.length > 0) {
-            for (File file : filesInFolder) {
-                totalSize += filesInFolder.length;
+            for (int a = 0; a <= filesInFolder.length - 1; a++) {
+                totalSize += filesInFolder[a].length();
+                if (filesInFolder[a].isDirectory()) {
+                    subDirectories++;
+                }
             }
         }
-        return totalSize / convertToMB;
+        return convertToReadableFormat(totalSize);
+    }
+
+    public static long convertToReadableFormat(long size) {
+        long kilobyte = size / 1024;
+        long megabyte = kilobyte / 1024;
+        long gigabyte = megabyte / 1024;
+        long terabyte = gigabyte / 1024;
+
+        if (terabyte > 0) {
+            System.out.println("Размер файлов в папке " + terabyte + " TB");
+        } else if (gigabyte > 0) {
+            System.out.println("Размер файлов в папке " + gigabyte + " GB");
+        } else if (megabyte > 0) {
+            System.out.println("Размер файлов в папке " + megabyte + " MB");
+        } else {
+            System.out.println("Размер файлов в папке " + kilobyte + " KB");
+        }
+        return size;
     }
 }
