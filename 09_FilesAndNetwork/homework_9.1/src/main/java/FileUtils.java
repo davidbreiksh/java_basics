@@ -6,7 +6,6 @@ public class FileUtils {
     public static long calculateFolderSize(String path) throws IOException {
 
         long totalSize = 0;
-        int subDirectories = 0;
 
         File folder = new File(path);
         File[] filesInFolder = null;
@@ -17,12 +16,12 @@ public class FileUtils {
             System.out.println("Не папка");
         }
 
-
         if (filesInFolder != null && filesInFolder.length > 0) {
-            for (int a = 0; a <= filesInFolder.length - 1; a++) {
-                totalSize += filesInFolder[a].length();
-                if (filesInFolder[a].isDirectory()) {
-                    subDirectories++;
+            for (int i = 0; i <= filesInFolder.length - 1; i++) {
+                totalSize += filesInFolder[i].length();
+                if (filesInFolder[i].isDirectory()) {
+                    calculateFolderSize(filesInFolder[i].toString());
+                    totalSize += filesInFolder[i].length();
                 }
             }
         }
