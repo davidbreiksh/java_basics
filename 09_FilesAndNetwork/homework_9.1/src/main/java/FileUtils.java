@@ -16,13 +16,15 @@ public class FileUtils {
             System.out.println("Не папка");
         }
 
-        if (filesInFolder != null && filesInFolder.length > 0) {
-            for (int i = 0; i <= filesInFolder.length - 1; i++) {
+        if (filesInFolder == null) {
+            throw new RuntimeException("Папка не найдена");
+        }
+
+        for (int i = 0; i <= filesInFolder.length - 1; i++) {
+            if (filesInFolder[i].isDirectory()) {
+                totalSize += calculateFolderSize(filesInFolder[i].toString());
+            } else {
                 totalSize += filesInFolder[i].length();
-                if (filesInFolder[i].isDirectory()) {
-                    calculateFolderSize(filesInFolder[i].toString());
-                    totalSize += filesInFolder[i].length();
-                }
             }
         }
         return convertToReadableFormat(totalSize);
