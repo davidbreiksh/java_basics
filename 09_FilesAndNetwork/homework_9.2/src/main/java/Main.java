@@ -5,9 +5,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-    private static Object DirectoryNotEmptyException;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, DirectoryNotEmptyException {
 
         try {
             Scanner scanner = new Scanner(System.in);
@@ -16,12 +15,13 @@ public class Main {
             System.out.println("Введите путь куда хотите скопировать папку");
             String to = scanner.nextLine();
 
+            File dst = new File(to);
+
             FileUtils.copyFolder(from, to);
 
-            File folder = new File(to);
-            File[] files = folder.listFiles();
+            File[] files = dst.listFiles();
             System.out.println(Arrays.toString(files));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
