@@ -63,10 +63,10 @@ public class Movements {
             String org = sb.toString();
 
             String[] row1 = org.trim().split(" {3,}");
-            String[] temp1 = row1[1].split("/");
-            String[] suppliesTemp1 = temp1[temp1.length - 1].split("\\\\");
+            String[] row2 = row1[1].split("/");
+            String[] row3 = row2[row2.length - 1].split("\\\\");
 
-            String organization = suppliesTemp1[suppliesTemp1.length - 1];
+            String organization = row3[row3.length - 1];
 
             expense = Double.parseDouble(column[7]);
 
