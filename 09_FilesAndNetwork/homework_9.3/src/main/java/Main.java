@@ -1,7 +1,6 @@
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
-import net.sf.saxon.expr.Component;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,11 +12,10 @@ public class Main {
 
         CSVReader reader = new CSVReaderBuilder(new FileReader(path)).withSkipLines(1).build();
 
-        Movements movements = new Movements(path);
+        Movements movements = new Movements(path, reader);
 
-       // movements.getExpenseSum();
-       // movements.getIncomeSum();
+        movements.getExpenseSum();
+        movements.getIncomeSum();
         movements.getExpenseByOrganization();
-
     }
 }

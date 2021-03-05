@@ -1,68 +1,64 @@
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
 public class Movements {
 
+
     private final Map<String, Double> organizations = new HashMap<>();
 
     private final String path;
+    private final CSVReader reader;
 
     double sum = 0;
+    String[] column;
 
-    public Movements(String pathMovementsCsv) {
+    public Movements(String pathMovementsCsv, CSVReader reader) throws IOException, CsvValidationException {
         this.path = pathMovementsCsv;
+        this.reader = reader;
     }
 
     public double getExpenseSum() throws IOException, CsvValidationException {
 
-        CSVReader reader = new CSVReaderBuilder(new FileReader(path)).withSkipLines(1).build();
-
-        String[] columns;
-
-        while ((columns = reader.readNext()) != null) {
-            columns[7] = columns[7].replaceAll("\"", "");
-            columns[7] = columns[7].replaceAll(",", ".");
-            double sumExpense = Double.parseDouble(columns[7]);
-            sum += sumExpense;
+        while ((column = reader.readNext()) != null) {
+            column[7] = column[7].replaceAll("\"", "");
+            column[7] = column[7].replaceAll(",", ".");
+            double expenseSum = Double.parseDouble(column[7]);
+            sum += expenseSum;
         }
-        System.out.println("Общий расход " + sum + " рублей");
+        System.out.println(sum);
         return sum;
     }
 
     public double getIncomeSum() throws IOException, CsvValidationException {
-        CSVReader reader = new CSVReaderBuilder(new FileReader(path)).withSkipLines(1).build();
 
-        String[] columns;
-
-        while ((columns = reader.readNext()) != null) {
-            columns[6] = columns[6].replaceAll("\"", "");
-            columns[6] = columns[6].replaceAll(",", ".");
-            double sumExpense = Double.parseDouble(columns[6]);
-            sum += sumExpense;
+        while ((column = reader.readNext()) != null) {
+            column[6] = column[6].replaceAll("\"", "");
+            column[6] = column[6].replaceAll(",", ".");
+            double incomeSum = Double.parseDouble(column[6]);
+            sum += incomeSum;
         }
-        System.out.println("Общий расход " + sum + " рублей");
+        System.out.println(sum);
         return sum;
     }
 
     public void getExpenseByOrganization() throws IOException, CsvValidationException {
-        CSVReader reader = new CSVReaderBuilder(new FileReader(path)).withSkipLines(1).build();
 
-        String[] columns;
+        String[] column;
 
         double expense = 0;
 
-        while ((columns = reader.readNext()) != null) {
-            columns[7] = columns[7].replaceAll("\"", "");
-            columns[7] = columns[7].replaceAll(",", ".");
-
+        while ((column = reader.readNext()) != null) {
+            column[7] = column[7].replaceAll("\"", "");
+            column[7] = column[7].replaceAll(",", ".");
 
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < columns.length; i++) {
-                sb.append(columns[i]);
+            for (int i = 0; i < column.length; i++) {
+                sb.append(column[i]);
             }
             String org = sb.toString();
 
@@ -72,7 +68,7 @@ public class Movements {
 
             String organization = suppliesTemp1[suppliesTemp1.length - 1];
 
-            expense = Double.parseDouble(columns[7]);
+            expense = Double.parseDouble(column[7]);
 
             if (!organizations.containsKey(organization))
                 organizations.put(organization, expense);
