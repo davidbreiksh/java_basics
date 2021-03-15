@@ -4,18 +4,16 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException, CsvValidationException {
 
         final String path = "D:\\skillbox\\java_basics\\09_FilesAndNetwork\\homework_9.3\\src\\test\\resources\\movementList.csv";
 
-        CSVReader reader = new CSVReaderBuilder(new FileReader(path)).withSkipLines(1).build();
-
-        Movements movements = new Movements(path, reader);
+        Movements movements = new Movements(path);
 
         movements.getExpenseSum();
-        movements.getIncomeSum();
-        movements.getExpenseByOrganization();
+
     }
 }

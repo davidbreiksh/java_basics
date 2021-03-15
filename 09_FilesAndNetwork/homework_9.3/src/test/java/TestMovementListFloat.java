@@ -12,19 +12,17 @@ public class TestMovementListFloat {
 
     private static final double DELTA = 0.01;
     private static final String CSV_FILENAME = "movementListFloat.csv";
-    CSVReader reader;
-
 
     @Test
     @DisplayName("Сумма прихода")
     void testSumIncome() throws IOException, CsvValidationException {
-        assertEquals(1500.5, new Movements(getCsvFilenamePath(), reader).getIncomeSum(), DELTA);
+        assertEquals(1500.5, new Movements(getCsvFilenamePath()).getIncomeSum(), DELTA);
     }
 
     @Test
     @DisplayName("Сумма расходов")
     void testSumExpense() throws IOException, CsvValidationException {
-        assertEquals(300.03, new Movements(getCsvFilenamePath(), reader).getExpenseSum(), DELTA);
+        assertEquals(300.03, new Movements(getCsvFilenamePath()).getExpenseSum(), DELTA);
     }
 
     private String getCsvFilenamePath() {
