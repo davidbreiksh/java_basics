@@ -30,11 +30,6 @@ public class Movement {
         this.organization = organization;
         this.direction = direction;
     }
-
-    @Override
-    public String toString() {
-        return "Movement [amount=" + amount + ", organization=" + organization + ", direction=" + direction + "]";
-    }
 }
 
 class Movements {
