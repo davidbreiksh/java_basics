@@ -7,6 +7,36 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+public class Movement {
+
+    private final double amount;
+    private final String organization;
+    private final Direction direction;
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public Movement(double amount, String organization, Direction direction) {
+        this.amount = amount;
+        this.organization = organization;
+        this.direction = direction;
+    }
+
+    @Override
+    public String toString() {
+        return "Movement [amount=" + amount + ", organization=" + organization + ", direction=" + direction + "]";
+    }
+}
+
 class Movements {
 
     private final List<Movement> movements = new ArrayList();
@@ -35,6 +65,7 @@ class Movements {
         String[] row3 = row2[row2.length - 1].split("\\\\");
 
         String organization = row3[row3.length - 1];
+        organization = organization.replaceAll("\\d", "");
 
         if (income - expense > 0) {
             return new Movement(income, organization, Direction.INCOME);
@@ -92,36 +123,9 @@ class Movements {
                     .collect(Collectors.groupingBy(Movement::getOrganization,
                             Collectors.summingDouble(Movement::getAmount)));
         }
+        for (Map.Entry<String, Double> entry : expByOrg.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue().toString() + " " + "рублей");
+        }
         return expByOrg;
-    }
-}
-
-public class Movement {
-
-    private final double amount;
-    private final String organization;
-    private final Direction direction;
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public String getOrganization() {
-        return organization;
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public Movement(double amount, String organization, Direction direction) {
-        this.amount = amount;
-        this.organization = organization;
-        this.direction = direction;
-    }
-
-    @Override
-    public String toString() {
-        return "Movement [amount=" + amount + ", organization=" + organization + ", direction=" + direction + "]";
     }
 }
