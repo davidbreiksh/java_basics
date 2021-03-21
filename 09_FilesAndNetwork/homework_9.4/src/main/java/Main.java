@@ -10,30 +10,34 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         String webSite = "http://lenta.ru/";
-        String dstPath = "E:\\fol";
+        String dstPath = "C:\\Users\\david\\IdeaProjects\\homework_9.4\\src\\image";
+
 
         Document doc = Jsoup.connect(webSite).get();
-        Elements el = doc.getElementsByTag("img");
+        Elements img = doc.select("img");
 
-        for (Element element : el) {
-            getImagesFromWebSite(webSite, dstPath);
+        for (Element links : img) {
+            String st = links.attr("src");
+            String fileName = st.substring(st.lastIndexOf('/') + 1);
+            System.out.println(st);
+
+            URL url = new URL(st);
+            InputStream it = new BufferedInputStream(url.openStream());
+
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+            byte[] buf = new byte[1024];
+            int n = 0;
+            while (-1 != (n = it.read(buf))) {
+                os.write(buf, 0, n);
+            }
+            it.close();
+            os.close();
+            byte[] response = os.toByteArray();
+
+            FileOutputStream fs = new FileOutputStream(dstPath + "\\" + fileName);
+            fs.write(response);
+            fs.close();
         }
-    }
-
-    public static void getImagesFromWebSite(String url, String dstPath) throws IOException {
-        String imgName = url.substring(url.lastIndexOf("/") + 1);
-
-        URL webSiteUrl = new URL(url);
-        InputStream is = webSiteUrl.openStream();
-
-        byte[] buffer = new byte[4096];
-        int n;
-
-        OutputStream os = new FileOutputStream(dstPath + " " + imgName);
-
-        while ((n = is.read(buffer)) != -1) {
-            os.write(buffer, 0, n);
-        }
-        os.close();
     }
 }
