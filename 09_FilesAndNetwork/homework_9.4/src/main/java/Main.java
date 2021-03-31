@@ -20,6 +20,7 @@ public class Main {
         notImageLogger = LogManager.getLogger("NotImage");
 
         String webSite = "http://lenta.ru/";
+        URL url = new URL(webSite);
 
 
         Document doc = Jsoup.connect(webSite).get();
@@ -30,22 +31,21 @@ public class Main {
 
             for (Element links : img) {
                 String st = links.attr("src");
-                downloadImg(st);
                 System.out.println(st);
+                inStream(url, st);
             }
         } catch (Exception e) {
             notImageLogger.info("Не картинка");
         }
     }
 
-    public static void downloadImg(String imgLink) throws IOException {
-        URL url = new URL(imgLink);
-        inStream(url, imgLink);
-    }
-
     public static void inStream(URL url, String imgName) throws IOException {
         String fileName = imgName.substring(imgName.lastIndexOf('/') + 1);
+        byte[] fileContent = readContent(url);
+        writeFile(fileName, fileContent);
+    }
 
+    private static byte[] readContent(URL url) throws IOException {
         InputStream it = new BufferedInputStream(url.openStream());
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -55,12 +55,15 @@ public class Main {
         while (-1 != (n = it.read(buf))) {
             os.write(buf, 0, n);
         }
+
         it.close();
         os.close();
-        byte[] response = os.toByteArray();
+        return os.toByteArray();
+    }
 
-        FileOutputStream fs = new FileOutputStream(dstPath + "\\" + fileName);
-        fs.write(response);
-        fs.close();
+    private static void writeFile(String fileName, byte[] response) throws IOException {
+        try (FileOutputStream fs = new FileOutputStream(dstPath + "\\" + fileName)) {
+            fs.write(response);
+        }
     }
 }
