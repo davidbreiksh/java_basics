@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ public class parseMetro {
         metroLines = new ArrayList<>();
     }
 
-
     public JSONArray parseMetroLines() throws IOException {
 
         doc = Jsoup.connect(webUrl).maxBodySize(0).get();
@@ -31,7 +31,6 @@ public class parseMetro {
 
         for (Element el : doc.select("span.js-metro-line")) { // линии
             String number = el.attr("data-line"); // НОМЕРА ЛИНИЙ
-
 
             line = new Line(el.ownText(), number);
             linesArray.add(line.getLine());
@@ -44,15 +43,16 @@ public class parseMetro {
         doc = Jsoup.connect(webUrl).maxBodySize(0).get();
 
         JSONObject station = new JSONObject();
+        JSONArray stationsArray = new JSONArray();
 
+        for (Element element : doc.select("div.js-metro-stations")) {
+            System.out.println(element);
+            Elements elements = element.getElementsByClass("name");
+            Elements elements1 = element.getElementsByClass("num");
 
-        for (Element el : doc.select("span.name")) { // станции
-            JSONArray stationsArray = new JSONArray();
-
-            stationsArray.add(el.text());
-            for (Element element : doc.select("span.js-metro-line")) {
-                String number = element.attr("data-line");
-                station.put(number, stationsArray);
+            for (Element element1 : elements) {
+                stationsArray.add(element1.text());
+                station.put(elements1, stationsArray);
             }
         }
         return station;

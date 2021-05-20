@@ -10,8 +10,8 @@ public class Line {
 
     public Line(String name, String number) {
         line = new JSONObject();
-        line.put("название линии", name);
-        line.put("номер линии", number);
+        line.put("line", name);
+        line.put("line number", number);
         this.name = name;
         this.number = number;
     }
