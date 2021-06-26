@@ -42,17 +42,20 @@ public class parseMetro {
     public JSONObject parseMetroStation() throws IOException {
         doc = Jsoup.connect(webUrl).maxBodySize(0).get();
 
+        int stationCount = 0;
+
         JSONObject station = new JSONObject();
-        JSONArray stationsArray = new JSONArray();
+
 
         for (Element element : doc.select("div.js-metro-stations")) {
-            System.out.println(element);
-            Elements elements = element.getElementsByClass("name");
-            Elements elements1 = element.getElementsByClass("num");
+            String lineNumber = element.attr("data-line"); // НОМЕРА ЛИНИЙ
+            JSONArray stationsArray = new JSONArray();
 
-            for (Element element1 : elements) {
-                stationsArray.add(element1.text());
-                station.put(elements1, stationsArray);
+            for (Element stationDiv : element.select("span[class=name]")) {
+                String stationName = stationDiv.text();
+                System.out.println("Номер линии " + lineNumber + " , " + "станция : " + stationName);
+                stationsArray.add(stationName);
+                station.put(lineNumber, stationsArray);
             }
         }
         return station;
