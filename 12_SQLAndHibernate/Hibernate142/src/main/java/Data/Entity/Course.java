@@ -22,8 +22,8 @@ public class Course {
 
     private String description;
 
-    @Column(name = "teacher_id")
-    private int teacherId;
+    @ManyToOne(cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    private Teacher teacher;
 
     @Column(name = "students_count")
     private Integer studentCount;
@@ -73,12 +73,12 @@ public class Course {
         this.description = description;
     }
 
-    public int getTeacherId() {
-        return teacherId;
+    public Teacher getTeacher() {
+        return teacher;
     }
 
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
+    public void setTeacherId(Teacher teacherId) {
+        this.teacher = teacherId;
     }
 
     public Integer getStudentCount() {
