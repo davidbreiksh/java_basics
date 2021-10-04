@@ -1,3 +1,4 @@
+import Data.Entity.Course;
 import org.hibernate.*;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,7 +16,7 @@ public class Main {
 
         CriteriaBuilder cb = session.getCriteriaBuilder();
         session.beginTransaction();
-        CriteriaQuery<Object> cq = cb.createQuery(Object.class);
+        CriteriaQuery<Course> cq = cb.createQuery(Course.class);
         Root<Course> root = cq.from(Course.class);
         cq.select(root.get("name"));
         Query query = session.createQuery(cq);
@@ -23,7 +24,7 @@ public class Main {
         List<Course> names = query.getResultList();
 
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Object> objectCriteriaQuery = criteriaBuilder.createQuery(Object.class);
+        CriteriaQuery<Course> objectCriteriaQuery = criteriaBuilder.createQuery(Course.class);
         Root<Course> courseRoot = objectCriteriaQuery.from(Course.class);
         objectCriteriaQuery.select(courseRoot.get("studentCount"));
         Query query1 = session.createQuery(objectCriteriaQuery);

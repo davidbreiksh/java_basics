@@ -1,3 +1,7 @@
+package Data.Entity;
+
+import Data.CourseType;
+
 import javax.persistence.*;
 
 @Entity
