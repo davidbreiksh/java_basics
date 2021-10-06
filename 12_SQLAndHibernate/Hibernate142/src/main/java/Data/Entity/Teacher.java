@@ -1,8 +1,7 @@
 package Data.Entity;
 
-import Data.CourseType;
-
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Teachers")
@@ -13,22 +12,12 @@ public class Teacher {
     private int id;
 
     private String name;
-
     private int age;
-
     private int salary;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    private Course course;
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_id")
+    private List<Course> courseList;
 
     public int getId() {
         return id;
@@ -60,5 +49,16 @@ public class Teacher {
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", salary=" + salary +
+                ", courseList=" + courseList +
+                '}';
     }
 }

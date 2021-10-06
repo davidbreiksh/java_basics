@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "purchaselist")
+@Table(name = "Purchaselist")
 public class PurchaseList {
 
     @EmbeddedId
