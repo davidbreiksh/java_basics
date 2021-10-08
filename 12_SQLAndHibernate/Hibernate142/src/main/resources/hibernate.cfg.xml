@@ -25,5 +25,6 @@
         <mapping class="Data.Entity.Subscription"></mapping>
         <mapping class="Data.Entity.Teacher"></mapping>
         <mapping class="Data.Entity.LinkedPurchaseList"></mapping>
+        <mapping class="Data.Entity.CourseToTeacher"></mapping>
     </session-factory>
 </hibernate-configuration>

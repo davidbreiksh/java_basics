@@ -18,6 +18,9 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @OneToMany(mappedBy = "course")
+    List<CourseToTeacher> courseToTeacherList;
+
     @Column(name = "teacher_id")
     public Integer teacherId;
 

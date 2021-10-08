@@ -1,6 +1,7 @@
 package Data.Entity;
 
 import javax.persistence.*;
+import java.security.Key;
 import java.util.List;
 
 @Entity
@@ -14,6 +15,9 @@ public class Teacher {
     private String name;
     private int age;
     private int salary;
+
+    @OneToMany(mappedBy = "teacher")
+    List<CourseToTeacher> courseToTeacherList;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id")

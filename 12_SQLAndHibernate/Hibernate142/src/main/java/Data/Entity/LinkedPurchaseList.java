@@ -11,10 +11,10 @@ public class LinkedPurchaseList {
     @EmbeddedId
     private LinkedPurchaseListKey linkedPurchaseList;
 
-    @Column(name = "course_id", insertable = false, updatable = false)
+    @Column(name = "student_id", insertable = false, updatable = false)
     private Integer studentId;
 
-    @Column(name = "student_id", insertable = false, updatable = false)
+    @Column(name = "course_id", insertable = false, updatable = false)
     private Integer courseId;
 
     public LinkedPurchaseListKey getLinkedPurchaseList() {

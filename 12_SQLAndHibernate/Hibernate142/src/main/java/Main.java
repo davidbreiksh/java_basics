@@ -1,7 +1,4 @@
-import Data.Entity.Course;
-import Data.Entity.LinkedPurchaseList;
-import Data.Entity.PurchaseList;
-import Data.Entity.Student;
+import Data.Entity.*;
 import org.hibernate.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -37,6 +34,7 @@ public class Main {
             session.save(linkedPurchaseList);
 
         }
+
         session.getTransaction().commit();
         session.close();
     }
