@@ -1,7 +1,6 @@
 package Data.Entity;
 
 import javax.persistence.*;
-import java.security.Key;
 import java.util.List;
 
 @Entity
@@ -16,11 +15,10 @@ public class Teacher {
     private int age;
     private int salary;
 
-    @OneToMany(mappedBy = "teacher")
-    List<CourseToTeacher> courseToTeacherList;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "teacher_id")
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "CourseToTeacher",
+            joinColumns = {@JoinColumn(name = "teacher_id")},
+            inverseJoinColumns = {@JoinColumn(name = "course_id")})
     private List<Course> courseList;
 
     public int getId() {

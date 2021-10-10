@@ -2,6 +2,7 @@ package Data.Entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.security.Key;
 import java.util.Objects;
 
 @Entity

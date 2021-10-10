@@ -21,18 +21,12 @@ public class Course {
     @OneToMany(mappedBy = "course")
     List<CourseToTeacher> courseToTeacherList;
 
-    @Column(name = "teacher_id")
-    public Integer teacherId;
-
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "enum")
     private CourseType type;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "subscriptions",
-            joinColumns = {@JoinColumn(name = "course_id")},
-            inverseJoinColumns = {@JoinColumn(name = "student_id")})
-    private List<Student> students;
+    @ManyToMany(mappedBy = "courseList")
+    private List<Teacher> teachers;
 
     @Column(name = "students_count")
     private Integer studentCount;
@@ -80,14 +74,6 @@ public class Course {
         this.description = description;
     }
 
-    public Integer getTeacherId() {
-        return teacherId;
-    }
-
-    public void setTeacherId(Integer teacherId) {
-        this.teacherId = teacherId;
-    }
-
     public Integer getStudentCount() {
         return studentCount;
     }
@@ -120,9 +106,7 @@ public class Course {
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", id=" + id +
-                ", teacherId=" + teacherId +
                 ", type=" + type +
-                ", students=" + students +
                 ", studentCount=" + studentCount +
                 ", pricePerHour=" + pricePerHour +
                 '}';
