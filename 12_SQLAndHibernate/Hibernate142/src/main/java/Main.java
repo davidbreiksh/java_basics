@@ -34,6 +34,7 @@ public class Main {
             session.save(linkedPurchaseList);
 
         }
+
         session.getTransaction().commit();
         session.close();
     }
