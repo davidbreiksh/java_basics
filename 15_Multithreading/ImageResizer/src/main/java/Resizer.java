@@ -31,18 +31,14 @@ public class Resizer implements Runnable {
                 }
                 int newHeight = (int) Math.round(image.getHeight() / (image.getWidth() / (double) newWeight));
 
-                BufferedImage resizedImage = resize(image, newHeight, newWeight);
+                BufferedImage resizedImage = Scalr.resize(image, newHeight, newWeight);
 
                 File newFile = new File(destFolder + "/" + files.getName());
                 ImageIO.write(resizedImage, "jpg", newFile);
+                System.out.println(Thread.currentThread().getName());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static BufferedImage resize(BufferedImage originalImage, int targetHeight, int targetWeight) throws
-            IOException {
-        return Scalr.resize(originalImage, targetHeight, targetWeight);
     }
 }

@@ -1,15 +1,7 @@
-import org.imgscalr.Scalr;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Main {
 
-    private static int newHeight;
     private static final int newWeight = 300;
 
     public static void main(String[] args) {
@@ -21,33 +13,12 @@ public class Main {
 
         File[] files = srcDir.listFiles();
 
-        ExecutorService e = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        e.execute(new Thread(new Resizer(files, newWeight, destFolder)));
-        e.shutdown();
+        int processors = Runtime.getRuntime().availableProcessors();
 
-        try {
-            for (File file : files) {
-
-                BufferedImage image = ImageIO.read(file);
-
-                if (image == null) {
-                    continue;
-                }
-                newHeight = (int) Math.round(image.getHeight() / (image.getWidth() / (double) newWeight));
-
-                BufferedImage resizedImage = resize(image, newHeight, newWeight);
-
-                File newFile = new File(destFolder + "/" + file.getName());
-                ImageIO.write(resizedImage, "jpg", newFile);
-            }
-        } catch (IOException exception) {
-            exception.printStackTrace();
+        for (int i = 0; i < processors; i++) {
+            Resizer resizer = new Resizer(files, newWeight, destFolder);
+            Thread thread = new Thread(resizer);
+            thread.start();
         }
-
-    }
-
-    public static BufferedImage resize(BufferedImage originalImage, int targetHeight, int targetWeight) throws
-            IOException {
-        return Scalr.resize(originalImage, targetHeight, targetWeight);
     }
 }
