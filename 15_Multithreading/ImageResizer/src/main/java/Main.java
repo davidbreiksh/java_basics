@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.*;
 
 public class Main {
 
@@ -10,15 +11,22 @@ public class Main {
         String destFolder = "C:/Users/Dell/Desktop/New folder (2)";
 
         File srcDir = new File(srcFolder);
-
         File[] files = srcDir.listFiles();
 
         int processors = Runtime.getRuntime().availableProcessors();
 
-        for (int i = 0; i < processors; i++) {
-            Resizer resizer = new Resizer(files, newWeight, destFolder);
-            Thread thread = new Thread(resizer);
-            thread.start();
+        PriorityQueue<File> filePriorityQueue = new PriorityQueue<>();
+        assert files != null;
+        filePriorityQueue.addAll(Arrays.asList(files));
+
+        while (filePriorityQueue.poll() != null) {
+            filePriorityQueue.poll();
+
+            for (int b = 0; b < processors; b++) {
+                Resizer resizer = new Resizer(filePriorityQueue, newWeight, destFolder);
+                Thread thread = new Thread(resizer);
+                thread.start();
+            }
         }
     }
 }
