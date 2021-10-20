@@ -8,6 +8,7 @@ public class Account {
         this.accNumber = accNumber;
     }
 
+
     public void setBlocked(boolean blocked) {
         isBlocked = blocked;
     }
@@ -22,8 +23,8 @@ public class Account {
         return money;
     }
 
-    public void setMoney(long money) {
-        this.money = money;
+    public long setMoney(long money) {
+        return this.money = money;
     }
 
     public String getAccNumber() {

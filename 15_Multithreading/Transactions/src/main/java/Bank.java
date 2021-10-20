@@ -1,4 +1,3 @@
-import java.lang.reflect.Field;
 import java.util.*;
 
 public class Bank extends Thread {
@@ -7,7 +6,6 @@ public class Bank extends Thread {
 
     private final Map<String, Account> accounts;
     private final Random random = new Random();
-    private final Map<String, Account> fraudAccounts = new HashMap<>();
 
     public Bank() {
         accounts = new HashMap<>();
@@ -33,27 +31,51 @@ public class Bank extends Thread {
         sendMoney(receiver, sender, amount);
 
         if (amount > maxLimitTransaction && isFraud(fromAccountNum, toAccountNum, amount)) {
-            System.out.println("Счет заблокирован системой безопасности");
+            System.out.println("Транзакция проверяется системой безопасности");
+
+            int waitingTime = (int) (1 + Math.random() * 6000);
 
             receiver.blockAccount();
             sender.blockAccount();
-            wait();
-            Thread.currentThread().interrupt();
+
+            try {
+                wait(waitingTime);
+
+                if (waitingTime > 2000) {
+                    Thread.currentThread().interrupt();
+                    System.out.println("Счет заблокирован");
+                    accounts.remove(fromAccountNum);
+                    accounts.remove(toAccountNum);
+
+                } //else Thread.yield();
+                //System.out.println("Проверка нарушений не выявила");
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
+    }
+
+    public void printAccounts() {
+        accounts.entrySet().forEach(entry -> {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        });
     }
 
     /**
      * TODO: реализовать метод. Возвращает остаток на счёте.
      */
-    public void getBalance(String accountNum) {
+    public long getBalance(String accountNum) {
+        long money = 0;
         for (Map.Entry<String, Account> entry : accounts.entrySet()) {
             if (entry.getValue().getAccNumber().equals(accountNum)) {
+                money = entry.getValue().getMoney();
             }
-            System.out.println("Остаток на счете : " + entry.getValue().getMoney());
         }
+        return money;
     }
 
-    public long getSumAllAccounts() {
+    public synchronized long getSumAllAccounts() {
 
         long totalSumOfAllAccounts = 0;
 
@@ -68,13 +90,32 @@ public class Bank extends Thread {
         accounts.put(accNumber, account);
     }
 
-    public void sendMoney(Account receiver, Account sender, long amount) {
+    public synchronized void sendMoney(Account receiver, Account sender, long amount) {
 
-        if (amount > sender.getMoney() && amount <= 0) {
+        if (amount > sender.getMoney() || amount <= 0) {
+            sender.setMoney(sender.getMoney());
             System.out.println("Недостаточно средств или неверная сумма перевода");
         } else {
             sender.setMoney(sender.getMoney() - amount);
             receiver.setMoney(receiver.getMoney() + amount);
         }
+    }
+
+    public synchronized long putMoneyOnAccount(Account account, long amount) {
+
+        if (amount <= 0) {
+            account.setMoney(account.getMoney() - (amount));
+            System.out.println("Неверная сумма");
+        }
+        return account.setMoney(account.getMoney() + amount);
+    }
+
+    public synchronized long withdrawMoney(Account account, long amount) {
+
+        if (amount > account.getMoney() || amount <= 0) {
+            account.setMoney(account.getMoney() + amount);
+            System.out.println("Недостаточный баланс или неверная сумма");
+        }
+        return account.setMoney(account.getMoney() - amount);
     }
 }
