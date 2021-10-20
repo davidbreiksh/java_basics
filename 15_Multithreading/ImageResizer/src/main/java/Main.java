@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Main {
 
@@ -15,18 +16,14 @@ public class Main {
 
         int processors = Runtime.getRuntime().availableProcessors();
 
-        PriorityQueue<File> filePriorityQueue = new PriorityQueue<>();
         assert files != null;
-        filePriorityQueue.addAll(Arrays.asList(files));
+        Queue<File> filesQueue = new ConcurrentLinkedDeque<>(Arrays.asList(files));
 
-        while (filePriorityQueue.poll() != null) {
-            filePriorityQueue.poll();
-
-            for (int b = 0; b < processors; b++) {
-                Resizer resizer = new Resizer(filePriorityQueue, newWeight, destFolder);
-                Thread thread = new Thread(resizer);
-                thread.start();
-            }
+        for (int b = 0; b < processors; b++) {
+            Resizer resizer = new Resizer(filesQueue, newWeight, destFolder);
+            Thread thread = new Thread(resizer);
+            thread.start();
         }
+
     }
 }
