@@ -1,15 +1,19 @@
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+
 import java.util.*;
 
 public class Main {
 
     private static Bank bank;
     private static List<Account> accounts = new ArrayList<>();
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
 
         bank = new Bank();
 
-        accounts = createMultipleAccounts(100);
+        accounts = createMultipleAccounts(1000);
         registerAccountsToBank(bank, accounts);
 
         int transactions = (int) (1 + Math.random() * 10);
@@ -25,8 +29,9 @@ public class Main {
                 long money = (long) (1 + Math.random() * moneyTransaction);
                 try {
                     bank.transfer(fromAcc, toAcc, money);
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
+                    logger.error("Some exception" , e);
                 }
             }
         };
@@ -41,8 +46,9 @@ public class Main {
         for (Thread thread : threads) {
             try {
                 thread.join();
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
+                logger.error("Some exception" , e);
             }
         }
 

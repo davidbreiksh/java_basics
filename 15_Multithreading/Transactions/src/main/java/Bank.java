@@ -1,8 +1,12 @@
+import org.apache.log4j.Logger;
+
 import java.util.*;
 
 public class Bank extends Thread {
 
     private final int maxLimitTransaction = 50000;
+    private final static Logger logger = Logger.getLogger(Bank.class.getName());
+
 
     private final Map<String, Account> accounts;
     private final Random random = new Random();
@@ -17,16 +21,18 @@ public class Bank extends Thread {
         return random.nextBoolean();
     }
 
-    /**
-     * TODO: реализовать метод. Метод переводит деньги между счетами. Если сумма транзакции > 50000,
-     * то после совершения транзакции, она отправляется на проверку Службе Безопасности – вызывается
-     * метод isFraud. Если возвращается true, то делается блокировка счетов (как – на ваше
-     * усмотрение)
-     */
     public synchronized void transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
 
-        Account receiver = accounts.get(toAccountNum);
-        Account sender = accounts.get(fromAccountNum);
+        Account sender;
+        Account receiver;
+
+        synchronized (fromAccountNum) {
+            sender = accounts.get(fromAccountNum);
+        }
+
+        synchronized (toAccountNum) {
+            receiver = accounts.get(toAccountNum);
+        }
 
         sendMoney(receiver, sender, amount);
 
@@ -42,16 +48,14 @@ public class Bank extends Thread {
                 wait(waitingTime);
 
                 if (waitingTime > 2000) {
-                    Thread.currentThread().interrupt();
                     System.out.println("Счет заблокирован");
                     accounts.remove(fromAccountNum);
                     accounts.remove(toAccountNum);
 
-                } //else Thread.yield();
-                //System.out.println("Проверка нарушений не выявила");
+                }
 
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+                logger.error("Interrupted Exception", e);
             }
         }
     }
@@ -62,9 +66,6 @@ public class Bank extends Thread {
         });
     }
 
-    /**
-     * TODO: реализовать метод. Возвращает остаток на счёте.
-     */
     public long getBalance(String accountNum) {
         long money = 0;
         for (Map.Entry<String, Account> entry : accounts.entrySet()) {
@@ -79,9 +80,10 @@ public class Bank extends Thread {
 
         long totalSumOfAllAccounts = 0;
 
-        for (Map.Entry<String, Account> entry : accounts.entrySet()) {
-            totalSumOfAllAccounts += entry.getValue().getMoney();
-        }
+            for (Map.Entry<String, Account> entry : accounts.entrySet()) {
+                totalSumOfAllAccounts += entry.getValue().getMoney();
+            }
+
         return totalSumOfAllAccounts;
     }
 
@@ -92,30 +94,33 @@ public class Bank extends Thread {
 
     public synchronized void sendMoney(Account receiver, Account sender, long amount) {
 
-        if (amount > sender.getMoney() || amount <= 0) {
-            sender.setMoney(sender.getMoney());
-            System.out.println("Недостаточно средств или неверная сумма перевода");
-        } else {
-            sender.setMoney(sender.getMoney() - amount);
-            receiver.setMoney(receiver.getMoney() + amount);
-        }
+            if (amount > sender.getMoney() || amount <= 0) {
+                sender.setMoney(sender.getMoney());
+                System.out.println("Недостаточно средств или неверная сумма перевода");
+            } else {
+                sender.setMoney(sender.getMoney() - amount);
+                receiver.setMoney(receiver.getMoney() + amount);
+            }
+
     }
 
     public synchronized long putMoneyOnAccount(Account account, long amount) {
 
-        if (amount <= 0) {
-            account.setMoney(account.getMoney() - (amount));
-            System.out.println("Неверная сумма");
-        }
+            if (amount <= 0) {
+                account.setMoney(account.getMoney() - (amount));
+                System.out.println("Неверная сумма");
+            }
+
         return account.setMoney(account.getMoney() + amount);
     }
 
     public synchronized long withdrawMoney(Account account, long amount) {
 
-        if (amount > account.getMoney() || amount <= 0) {
-            account.setMoney(account.getMoney() + amount);
-            System.out.println("Недостаточный баланс или неверная сумма");
-        }
+            if (amount > account.getMoney() || amount <= 0) {
+                account.setMoney(account.getMoney() + amount);
+                System.out.println("Недостаточный баланс или неверная сумма");
+            }
+
         return account.setMoney(account.getMoney() - amount);
     }
 }
