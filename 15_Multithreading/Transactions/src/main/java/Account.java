@@ -1,23 +1,23 @@
 public class Account {
 
     private long money;
-    private boolean isBlocked = false;
+
+    private String accNumber;
+
+    private boolean isBlocked;
 
     public Account(long money, String accNumber) {
         this.money = money;
         this.accNumber = accNumber;
     }
 
+    public boolean isBlocked() {
+        return isBlocked;
+    }
 
     public void setBlocked(boolean blocked) {
         isBlocked = blocked;
     }
-
-    public synchronized void blockAccount() {
-        isBlocked = true;
-    }
-
-    private String accNumber;
 
     public long getMoney() {
         return money;

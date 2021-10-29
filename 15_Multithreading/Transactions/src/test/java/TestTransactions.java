@@ -2,6 +2,7 @@ import junit.framework.TestCase;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class TestTransactions extends TestCase {
 
@@ -139,27 +140,5 @@ public class TestTransactions extends TestCase {
         long actual = bank.withdrawMoney(firstAcc, amount);
 
         assertEquals(expected, actual);
-    }
-
-    public void testFraudAccount(){
-
-        long money = 50000;
-
-        try {
-            bank.transfer(secondAcc.getAccNumber(), firstAcc.getAccNumber(), money);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-        long expectedResult = secondAccMoney - money;
-        long actualResult = secondAcc.getMoney();
-
-        long expectedResult1 = firstAccMoney + money;
-        long actualResult1 = firstAcc.getMoney();
-
-        assertEquals(expectedResult, actualResult);
-        assertEquals(expectedResult1, actualResult1);
-
     }
 }

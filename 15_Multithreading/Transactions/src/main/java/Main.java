@@ -1,65 +1,75 @@
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
     private static Bank bank;
     private static List<Account> accounts = new ArrayList<>();
     private static final Logger logger = Logger.getLogger(Main.class.getName());
+    private static final int cores = Runtime.getRuntime().availableProcessors();
 
     public static void main(String[] args) {
 
+        List<Thread> threads = new ArrayList<>(cores);
+
         bank = new Bank();
 
-        accounts = createMultipleAccounts(1000);
+        accounts = createMultipleAccounts(10);
         registerAccountsToBank(bank, accounts);
 
-        int transactions = (int) (1 + Math.random() * 10);
-        long moneyTransaction = (long) (1 + Math.random() * 100000);
+        int transactions = 10;
 
-        System.out.println(bank.getSumAllAccounts());
+        System.out.println(bank.getSumAllAccounts() + " Сумма денег в банке перед транзакциями");
 
-        Runnable runnable = () -> {
+        for (int i = 0; i < transactions; i++) {
 
-            for (int i = 0; i < transactions; i++) {
+            threads.add(new Thread(() -> {
                 String fromAcc = accounts.get((int) (Math.random() * accounts.size())).getAccNumber();
                 String toAcc = accounts.get((int) (Math.random() * accounts.size())).getAccNumber();
-                long money = (long) (1 + Math.random() * moneyTransaction);
+
+                long money = (long) (1 + Math.random() * 100000);
+
                 try {
                     bank.transfer(fromAcc, toAcc, money);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    logger.error("Some exception" , e);
+                    logger.error("Some exception", e);
                 }
-            }
-        };
-
-        List<Thread> threads = new ArrayList<>();
-
-        for (int i = 0; i < 8; i++) {
-            Thread thread = new Thread(runnable);
-            thread.start();
-            threads.add(thread);
+            }));
         }
-        for (Thread thread : threads) {
+        threads.forEach(Thread::start);
+
+        for(Thread thread : threads){
             try {
                 thread.join();
-            } catch (Exception e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
-                logger.error("Some exception" , e);
             }
         }
 
-        System.out.println(bank.getSumAllAccounts());
+        System.out.println(bank.getSumAllAccounts() + " Сумма денег в банке после транзакций");
     }
+
 
     private static List<Account> createMultipleAccounts(int amount) {
         for (int i = 0; i < amount; i++) {
             accounts.add(new Account(generateMoneyAmount(), generateAccountNumber()));
         }
         return accounts;
+    }
+
+    private static void registerAccountsToBank(Bank bank, List<Account> accounts) {
+        String accNumber;
+
+        for (Account account : accounts) {
+            accNumber = account.getAccNumber();
+            bank.registerNewAccount(accNumber, account);
+        }
     }
 
     private static long generateMoneyAmount() {
@@ -76,14 +86,5 @@ public class Main {
             countryCode.append((numbers));
         }
         return countryCode.toString();
-    }
-
-    private static void registerAccountsToBank(Bank bank, List<Account> accounts) {
-        String accNumber;
-
-        for (Account account : accounts) {
-            accNumber = account.getAccNumber();
-            bank.registerNewAccount(accNumber, account);
-        }
     }
 }
