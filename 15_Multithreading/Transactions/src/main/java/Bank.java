@@ -24,25 +24,40 @@ public class Bank {
 
     public void transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
 
+        Object lowSyncAcc;
+        Object topSyncAcc;
+
         Account sender = accounts.get(fromAccountNum);
         Account receiver = accounts.get(toAccountNum);
 
-        if (sender.isBlocked() || receiver.isBlocked()) {
-            System.out.println("Невозможно провести операцию счет заблокирован");
-            return;
+        synchronized (this) {
+            if (sender.isBlocked() || receiver.isBlocked()) {
+                System.out.println("Невозможно провести операцию счет заблокирован");
+                return;
+            }
         }
 
-        synchronized (fromAccountNum) {
+        synchronized (this) {
+            if (sender.compareTo(receiver) > 0) {
+                lowSyncAcc = receiver;
+                topSyncAcc = sender;
+            } else {
+                lowSyncAcc = sender;
+                topSyncAcc = receiver;
+            }
+        }
 
-            synchronized (toAccountNum) {
+        synchronized (lowSyncAcc) {
+
+            synchronized (topSyncAcc) {
 
                 sendMoney(sender, receiver, amount);
             }
         }
 
-        synchronized (sender){
+        synchronized (lowSyncAcc) {
 
-            synchronized (receiver){
+            synchronized (topSyncAcc) {
 
                 if (amount > maxLimitTransaction && isFraud(fromAccountNum, toAccountNum, amount)) {
                     sender.setBlocked(true);

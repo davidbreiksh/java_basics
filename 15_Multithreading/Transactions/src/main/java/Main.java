@@ -1,10 +1,6 @@
 import org.apache.log4j.Logger;
 
 import java.util.*;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
 
@@ -22,7 +18,7 @@ public class Main {
         accounts = createMultipleAccounts(10);
         registerAccountsToBank(bank, accounts);
 
-        int transactions = 10;
+        int transactions = 1000;
 
         System.out.println(bank.getSumAllAccounts() + " Сумма денег в банке перед транзакциями");
 

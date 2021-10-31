@@ -1,4 +1,8 @@
-public class Account {
+import java.util.Comparator;
+
+import org.jetbrains.annotations.NotNull;
+
+public class Account implements Comparable<Account> {
 
     private long money;
 
@@ -43,4 +47,15 @@ public class Account {
                 ", accNumber='" + accNumber + '\'' +
                 '}';
     }
+
+    @Override
+    public int compareTo(@NotNull Account o) {
+        return Integer.compare(o.hashCode(), this.hashCode());
+    }
+
+//    @Override
+//    public int compare(Account o1, Account o2) {
+//
+//        return Integer.compare(o1.hashCode(), o2.hashCode());
+//    }
 }
