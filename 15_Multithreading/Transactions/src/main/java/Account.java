@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -9,6 +11,8 @@ public class Account implements Comparable<Account> {
     private String accNumber;
 
     private boolean isBlocked;
+
+    List<Account> accounts;
 
     public Account(long money, String accNumber) {
         this.money = money;
@@ -50,12 +54,7 @@ public class Account implements Comparable<Account> {
 
     @Override
     public int compareTo(@NotNull Account o) {
+
         return Integer.compare(o.hashCode(), this.hashCode());
     }
-
-//    @Override
-//    public int compare(Account o1, Account o2) {
-//
-//        return Integer.compare(o1.hashCode(), o2.hashCode());
-//    }
 }

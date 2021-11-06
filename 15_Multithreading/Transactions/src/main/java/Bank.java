@@ -15,6 +15,7 @@ public class Bank {
         accounts = new HashMap<>();
     }
 
+
     public synchronized boolean isFraud(String fromAccountNum, String toAccountNum, long amount)
             throws InterruptedException {
 
@@ -27,23 +28,17 @@ public class Bank {
         Object lowSyncAcc;
         Object topSyncAcc;
 
+
         Account sender = accounts.get(fromAccountNum);
         Account receiver = accounts.get(toAccountNum);
 
-        synchronized (this) {
-            if (sender.isBlocked() || receiver.isBlocked()) {
-                System.out.println("Невозможно провести операцию счет заблокирован");
-                return;
-            }
-        }
 
-        synchronized (this) {
-            if (sender.compareTo(receiver) > 0) {
-                lowSyncAcc = receiver;
-                topSyncAcc = sender;
-            } else {
-                lowSyncAcc = sender;
-                topSyncAcc = receiver;
+        synchronized (sender) {
+            synchronized (receiver) {
+                if (sender.isBlocked() || receiver.isBlocked()) {
+                    System.out.println("Невозможно провести операцию счет заблокирован");
+                    return;
+                }
             }
         }
 
