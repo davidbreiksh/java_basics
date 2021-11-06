@@ -16,7 +16,7 @@ public class Bank {
     }
 
 
-    public synchronized boolean isFraud(String fromAccountNum, String toAccountNum, long amount)
+    public boolean isFraud()
             throws InterruptedException {
 
         Thread.sleep(1000);
@@ -25,40 +25,23 @@ public class Bank {
 
     public void transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
 
-        Object lowSyncAcc;
-        Object topSyncAcc;
-
-
         Account sender = accounts.get(fromAccountNum);
         Account receiver = accounts.get(toAccountNum);
 
+        AbstractMap.SimpleEntry<Account, Account> comparedAccounts = new AbstractMap.SimpleEntry<>(sender, receiver);
 
-        synchronized (sender) {
-            synchronized (receiver) {
-                if (sender.isBlocked() || receiver.isBlocked()) {
-                    System.out.println("Невозможно провести операцию счет заблокирован");
-                    return;
-                }
+        synchronized (comparedAccounts) {
+
+            if (amount > maxLimitTransaction && isFraud()) {
+                sender.setBlocked(true);
+                receiver.setBlocked(true);
             }
-        }
 
-        synchronized (lowSyncAcc) {
-
-            synchronized (topSyncAcc) {
-
-                sendMoney(sender, receiver, amount);
+            if (sender.isBlocked() || receiver.isBlocked()) {
+                System.out.println("Невозможно провести операцию счет заблокирован");
+                return;
             }
-        }
-
-        synchronized (lowSyncAcc) {
-
-            synchronized (topSyncAcc) {
-
-                if (amount > maxLimitTransaction && isFraud(fromAccountNum, toAccountNum, amount)) {
-                    sender.setBlocked(true);
-                    receiver.setBlocked(true);
-                }
-            }
+            sendMoney(sender, receiver, amount);
         }
     }
 

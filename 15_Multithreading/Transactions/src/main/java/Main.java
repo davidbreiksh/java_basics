@@ -15,7 +15,7 @@ public class Main {
 
         bank = new Bank();
 
-        accounts = createMultipleAccounts(3);
+        accounts = createMultipleAccounts(10);
         registerAccountsToBank(bank, accounts);
 
         int transactions = 1000;
