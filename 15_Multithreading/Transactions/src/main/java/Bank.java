@@ -2,11 +2,10 @@ import org.apache.log4j.Logger;
 
 import java.util.*;
 
-public class Bank {
+public class Bank extends Thread {
 
     private final int maxLimitTransaction = 50000;
     private final static Logger logger = Logger.getLogger(Bank.class.getName());
-
 
     private final Map<String, Account> accounts;
     private final Random random = new Random();
@@ -14,7 +13,6 @@ public class Bank {
     public Bank() {
         accounts = new HashMap<>();
     }
-
 
     public boolean isFraud()
             throws InterruptedException {
@@ -25,23 +23,30 @@ public class Bank {
 
     public void transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
 
+        Object lowSyncAcc;
+        Object topSynAcc;
+
         Account sender = accounts.get(fromAccountNum);
         Account receiver = accounts.get(toAccountNum);
 
-        AbstractMap.SimpleEntry<Account, Account> comparedAccounts = new AbstractMap.SimpleEntry<>(sender, receiver);
+        lowSyncAcc = sender.getAccNumber().compareTo(receiver.getAccNumber()) > 0 ? sender : receiver;
+        topSynAcc = sender.getAccNumber().compareTo(receiver.getAccNumber()) > 0 ? sender : receiver;
 
-        synchronized (comparedAccounts) {
+        synchronized (lowSyncAcc) {
 
-            if (amount > maxLimitTransaction && isFraud()) {
-                sender.setBlocked(true);
-                receiver.setBlocked(true);
+            synchronized (topSynAcc) {
+
+                if (amount > maxLimitTransaction && isFraud()) {
+                    sender.setBlocked(true);
+                    receiver.setBlocked(true);
+                }
+
+                if (sender.isBlocked() || receiver.isBlocked()) {
+                    System.out.println("Невозможно провести операцию счет заблокирован");
+                    return;
+                }
+                sendMoney(sender, receiver, amount);
             }
-
-            if (sender.isBlocked() || receiver.isBlocked()) {
-                System.out.println("Невозможно провести операцию счет заблокирован");
-                return;
-            }
-            sendMoney(sender, receiver, amount);
         }
     }
 

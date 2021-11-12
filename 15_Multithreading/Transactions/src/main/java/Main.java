@@ -7,24 +7,25 @@ public class Main {
     private static Bank bank;
     private static List<Account> accounts = new ArrayList<>();
     private static final Logger logger = Logger.getLogger(Main.class.getName());
-    private static final int cores = Runtime.getRuntime().availableProcessors();
 
     public static void main(String[] args) {
 
-        List<Thread> threads = new ArrayList<>(cores);
+        List<Thread> threads = new ArrayList<>();
+
 
         bank = new Bank();
 
-        accounts = createMultipleAccounts(10);
+        accounts = createMultipleAccounts(5);
         registerAccountsToBank(bank, accounts);
 
-        int transactions = 1000;
+        int transactions = 100;
 
         System.out.println(bank.getSumAllAccounts() + " Сумма денег в банке перед транзакциями");
 
         for (int i = 0; i < transactions; i++) {
 
             threads.add(new Thread(() -> {
+
                 String fromAcc = accounts.get((int) (Math.random() * accounts.size())).getAccNumber();
                 String toAcc = accounts.get((int) (Math.random() * accounts.size())).getAccNumber();
 
@@ -36,11 +37,13 @@ public class Main {
                     e.printStackTrace();
                     logger.error("Some exception", e);
                 }
+
             }));
         }
+
         threads.forEach(Thread::start);
 
-        for(Thread thread : threads){
+        for (Thread thread : threads) {
             try {
                 thread.join();
             } catch (InterruptedException e) {
@@ -50,7 +53,6 @@ public class Main {
 
         System.out.println(bank.getSumAllAccounts() + " Сумма денег в банке после транзакций");
     }
-
 
     private static List<Account> createMultipleAccounts(int amount) {
         for (int i = 0; i < amount; i++) {

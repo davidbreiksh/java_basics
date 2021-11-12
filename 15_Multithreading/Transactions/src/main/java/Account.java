@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
-public class Account implements Comparable<Account> {
+public class Account {
 
     private long money;
 
@@ -50,11 +50,5 @@ public class Account implements Comparable<Account> {
                 ", isBlocked=" + isBlocked +
                 ", accNumber='" + accNumber + '\'' +
                 '}';
-    }
-
-    @Override
-    public int compareTo(@NotNull Account o) {
-
-        return Integer.compare(o.hashCode(), this.hashCode());
     }
 }
