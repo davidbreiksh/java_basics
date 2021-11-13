@@ -23,14 +23,11 @@ public class Bank extends Thread {
 
     public void transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
 
-        Object lowSyncAcc;
-        Object topSynAcc;
-
         Account sender = accounts.get(fromAccountNum);
         Account receiver = accounts.get(toAccountNum);
 
-        lowSyncAcc = sender.getAccNumber().compareTo(receiver.getAccNumber()) > 0 ? sender : receiver;
-        topSynAcc = sender.getAccNumber().compareTo(receiver.getAccNumber()) > 0 ? sender : receiver;
+        Object lowSyncAcc = sender.getAccNumber().compareTo(receiver.getAccNumber()) > 0 ? sender : receiver;
+        Object topSynAcc = receiver.getAccNumber().compareTo(sender.getAccNumber()) > 0 ? receiver : sender;
 
         synchronized (lowSyncAcc) {
 
@@ -71,8 +68,8 @@ public class Bank extends Thread {
         return accounts.values().stream().mapToLong(Account::getMoney).sum();
     }
 
-    public void registerNewAccount(String accNumber, Account account) {
-        accNumber = account.getAccNumber();
+    public void registerNewAccount(Account account) {
+        String accNumber = account.getAccNumber();
         accounts.put(accNumber, account);
     }
 

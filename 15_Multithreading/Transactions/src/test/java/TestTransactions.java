@@ -2,7 +2,6 @@ import junit.framework.TestCase;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class TestTransactions extends TestCase {
 
@@ -23,8 +22,8 @@ public class TestTransactions extends TestCase {
         firstAcc = new Account(firstAccMoney, firstAccNumber);
         secondAcc = new Account(secondAccMoney, secondAccNumber);
 
-        bank.registerNewAccount(firstAccNumber, firstAcc);
-        bank.registerNewAccount(secondAccNumber, secondAcc);
+        bank.registerNewAccount(firstAcc);
+        bank.registerNewAccount(secondAcc);
 
         accounts.put(firstAccNumber, firstAcc);
         accounts.put(secondAccNumber, secondAcc);

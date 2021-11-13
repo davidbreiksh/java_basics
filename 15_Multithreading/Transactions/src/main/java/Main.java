@@ -12,10 +12,9 @@ public class Main {
 
         List<Thread> threads = new ArrayList<>();
 
-
         bank = new Bank();
 
-        accounts = createMultipleAccounts(5);
+        accounts = createMultipleAccounts(15);
         registerAccountsToBank(bank, accounts);
 
         int transactions = 100;
@@ -66,7 +65,7 @@ public class Main {
 
         for (Account account : accounts) {
             accNumber = account.getAccNumber();
-            bank.registerNewAccount(accNumber, account);
+            bank.registerNewAccount(account);
         }
     }
 
