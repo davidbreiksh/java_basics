@@ -14,14 +14,14 @@ public class Bank extends Thread {
         accounts = new HashMap<>();
     }
 
-    public boolean isFraud()
+    protected boolean isFraud()
             throws InterruptedException {
 
         Thread.sleep(1000);
         return random.nextBoolean();
     }
 
-    public void transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
+    protected void transfer(String fromAccountNum, String toAccountNum, long amount) throws InterruptedException {
 
         Account sender = accounts.get(fromAccountNum);
         Account receiver = accounts.get(toAccountNum);
@@ -47,11 +47,11 @@ public class Bank extends Thread {
         }
     }
 
-    public void printAccounts() {
+    protected void printAccounts() {
         accounts.forEach((key, value) -> System.out.println(key + " " + value));
     }
 
-    public long getBalance(String accountNum) {
+    protected long getBalance(String accountNum) {
 
         long money = 0;
 
@@ -63,7 +63,7 @@ public class Bank extends Thread {
         return money;
     }
 
-    public long getSumAllAccounts() {
+    protected long getSumAllAccounts() {
 
         return accounts.values().stream().mapToLong(Account::getMoney).sum();
     }
@@ -73,34 +73,13 @@ public class Bank extends Thread {
         accounts.put(accNumber, account);
     }
 
-    public void sendMoney(Account sender, Account receiver, long amount) {
+    private void sendMoney(Account sender, Account receiver, long amount) {
 
-        if (amount > sender.getMoney() || amount <= 0) {
-            sender.setMoney(sender.getMoney());
-            System.out.println("Недостаточно средств или неверная сумма перевода");
+        if (sender.getMoney() >= amount) {
+            sender.withdraw(amount);
+            receiver.depositMoney(amount);
         } else {
-            sender.setMoney(sender.getMoney() - amount);
-            receiver.setMoney(receiver.getMoney() + amount);
+            System.out.println("Операция невозможна");
         }
-    }
-
-    public long putMoneyOnAccount(Account account, long amount) {
-
-        if (amount <= 0) {
-            account.setMoney(account.getMoney() - (amount));
-            System.out.println("Неверная сумма");
-        }
-
-        return account.setMoney(account.getMoney() + amount);
-    }
-
-    public long withdrawMoney(Account account, long amount) {
-
-        if (amount > account.getMoney() || amount <= 0) {
-            account.setMoney(account.getMoney() + amount);
-            System.out.println("Недостаточный баланс или неверная сумма");
-        }
-
-        return account.setMoney(account.getMoney() - amount);
     }
 }

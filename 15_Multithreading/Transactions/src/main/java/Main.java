@@ -17,7 +17,7 @@ public class Main {
         accounts = createMultipleAccounts(15);
         registerAccountsToBank(bank, accounts);
 
-        int transactions = 100;
+        int transactions = 10;
 
         System.out.println(bank.getSumAllAccounts() + " Сумма денег в банке перед транзакциями");
 
@@ -61,10 +61,8 @@ public class Main {
     }
 
     private static void registerAccountsToBank(Bank bank, List<Account> accounts) {
-        String accNumber;
 
         for (Account account : accounts) {
-            accNumber = account.getAccNumber();
             bank.registerNewAccount(account);
         }
     }

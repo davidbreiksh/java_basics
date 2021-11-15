@@ -1,9 +1,3 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
-import org.jetbrains.annotations.NotNull;
-
 public class Account {
 
     private long money;
@@ -12,34 +6,41 @@ public class Account {
 
     private boolean isBlocked;
 
-    List<Account> accounts;
-
     public Account(long money, String accNumber) {
         this.money = money;
         this.accNumber = accNumber;
     }
 
-    public boolean isBlocked() {
+    protected synchronized void withdraw(long withdrawMoney) {
+        money -= withdrawMoney;
+        // Делаю проверку на деньги в классе банке
+    }
+
+    protected synchronized void depositMoney(long depositMoney) {
+        money += depositMoney;
+    }
+
+    protected boolean isBlocked() {
         return isBlocked;
     }
 
-    public void setBlocked(boolean blocked) {
+    protected void setBlocked(boolean blocked) {
         isBlocked = blocked;
     }
 
-    public long getMoney() {
+    protected long getMoney() {
         return money;
     }
 
-    public long setMoney(long money) {
+    protected long setMoney(long money) {
         return this.money = money;
     }
 
-    public String getAccNumber() {
+    protected String getAccNumber() {
         return accNumber;
     }
 
-    public void setAccNumber(String accNumber) {
+    protected void setAccNumber(String accNumber) {
         this.accNumber = accNumber;
     }
 
