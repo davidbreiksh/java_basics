@@ -3,21 +3,23 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Document;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.RecursiveTask;
-
 import static java.lang.Thread.sleep;
 
-public class RecursiveAction extends RecursiveTask<List<String>> {
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveTask;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class RecursiveAction extends RecursiveTask<Set<String>> {
 
     private final Node<String> rootUrl;
     private final Node<String> childUrl;
 
-    List<String> links = new ArrayList<>();
+    Set<String> links = new CopyOnWriteArraySet<>();
 
     public RecursiveAction(Node<String> rootUrl, Node<String> childUrl) {
         this.rootUrl = rootUrl;
@@ -25,15 +27,10 @@ public class RecursiveAction extends RecursiveTask<List<String>> {
     }
 
     @Override
-    protected List<String> compute() {
+    protected Set<String> compute() {
 
         try {
-            try {
-                sleep(150);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
+            sleep(350);
             Document doc = Jsoup.connect(rootUrl.getUrl()).timeout(10000).get();
             Elements elements = doc.select("a[href]");
 
@@ -45,33 +42,42 @@ public class RecursiveAction extends RecursiveTask<List<String>> {
                 }
             }
 
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
-        List<RecursiveAction> taskList = new ArrayList<>(createTasks());
-
-        for (RecursiveAction subtask : taskList) {
-            subtask.join();
-        }
-
-//        taskList.forEach(RecursiveAction::join);
+        Set<RecursiveAction> taskList = new CopyOnWriteArraySet<>(createTasks());
+        taskList.forEach(ForkJoinTask::fork);
+        addResults(links, taskList);
 
         return links;
     }
 
-    private List<RecursiveAction> createTasks() {
+    private Set<RecursiveAction> createTasks() {
 
-        List<RecursiveAction> forks = new ArrayList<>();
-
+        Set<RecursiveAction> forks = new HashSet<>();
         for (Node<String> url : rootUrl.getChildren()) {
             RecursiveAction act = new RecursiveAction(url, rootUrl);
-            forks.add(act);
             act.fork();
-
+            forks.add(act);
         }
         return forks;
     }
+
+    private void addResults(Set<String> list, Set<RecursiveAction> tasks) {
+        for (RecursiveAction item : tasks) {
+            list.addAll(item.join());
+        }
+    }
+
+    //    private Collection<RecursiveAction> createSubtasks() {
+//        List<RecursiveAction> tasks = new ArrayList<>();
+//        for (Node<String> node : rootUrl.getChildren()) {
+//            RecursiveAction action = new RecursiveAction(node, rootUrl);
+//            tasks.add(action);
+//        }
+//        return tasks;
+//    }
 
     private boolean linkFilter(String url) {
         return (!url.contains("#") && !links.contains(url)

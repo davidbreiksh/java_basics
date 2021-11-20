@@ -1,30 +1,32 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class Node<T> {
 
-    private List<Node<T>> children;
-    private Node<T> parent = null;
+    private CopyOnWriteArraySet<Node<T>> children;
+    private Node<T> parent;
     private final String url;
+    private int nodeSize;
 
     public Node(String url) {
         this.url = url;
-        children = new ArrayList<>();
+        children = new CopyOnWriteArraySet<>();
+        nodeSize = 0;
     }
 
-    public Node<T> addChild(Node<T> child) {
+    public void addChild(Node<T> child) {
         if (!children.contains(child) && child.getUrl().startsWith(url)) {
-            child.setParent(this);
             this.children.add(child);
+            child.setParent(this);
+
         }
-        return child;
     }
 
-    public List<Node<T>> getChildren() {
+    public CopyOnWriteArraySet<Node<T>> getChildren() {
         return children;
     }
 
-    public void setChildren(List<Node<T>> children) {
+    public void setChildren(CopyOnWriteArraySet<Node<T>> children) {
         this.children = children;
     }
 
@@ -32,8 +34,22 @@ public class Node<T> {
         return parent;
     }
 
+    public int getNodeSize() {
+        return nodeSize;
+    }
+
+    public int setNodeSize() {
+        if (parent == null) {
+            return 0;
+        }
+        return 1 + parent.getNodeSize();
+    }
+
     public void setParent(Node<T> parent) {
-        this.parent = parent;
+        synchronized (this) {
+            this.parent = parent;
+            this.nodeSize = setNodeSize();
+        }
     }
 
     public String getUrl() {
