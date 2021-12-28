@@ -7,15 +7,15 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.RecursiveTask;
 
-public class RecursiveAction extends RecursiveTask<Set<String>> {
+public class RecursiveAction extends RecursiveTask<List<String>> {
 
-    Set<String> allLinks = new HashSet<>();
-    Set<RecursiveAction> tasks = new HashSet<>();
+    List<String> allLinks = new ArrayList<>();
+    List<RecursiveAction> allTasks = new ArrayList<>();
 
-    String rootUrl;
+    public static String rootUrl;
     String url;
 
-    String matchUrl = "/([^\\/]+)(?=\\.\\w+$)/";
+    String matchUrl = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp|pdf))$)";
 
     public RecursiveAction(String url) {
         this.url = url;
@@ -23,49 +23,58 @@ public class RecursiveAction extends RecursiveTask<Set<String>> {
 
     public RecursiveAction(String url, String rootUrl) {
         this.url = url;
-        this.rootUrl = rootUrl;
+        RecursiveAction.rootUrl = rootUrl;
     }
 
     @Override
-    protected Set<String> compute() {
+    protected List<String> compute() {
 
-        Set<String> links = new HashSet<>();
 
+        List<RecursiveAction> tasks = new ArrayList<>();
+
+        Document document = null;
         try {
-            getLinks(tasks);
+            document = Jsoup.connect(url).ignoreHttpErrors(true).ignoreContentType(true).timeout(10000).get();
         } catch (IOException exception) {
             exception.printStackTrace();
         }
 
-        for (RecursiveAction item : tasks) {
-            links.addAll(item.join());
-        }
-
-        return links;
-    }
-
-    private void getLinks(Set<RecursiveAction> tasks) throws IOException {
-
-        Document document = Jsoup.connect(url).ignoreHttpErrors(true).ignoreContentType(true).timeout(10000).get();
         Elements elements = document.select("a[href]");
-
-        for (Element element : elements) {
-            String link = element.attr("abs:href");
-            if (linkFilter(link)) {
-                RecursiveAction recursiveAction = new RecursiveAction(link);
-                recursiveAction.fork();
-                tasks.add(recursiveAction);
-                allLinks.add(link);
+        if (elements.size() > 1) {
+            for (Element element : elements) {
+                String link = element.attr("abs:href");
+                if (linkFilter(link)) {
+                    allLinks.add(link);
+                }
             }
         }
+        if (allLinks != null) {
+            for (String allLink : allLinks) {
+                if (!allLink.isEmpty()) {
+                    RecursiveAction task = new RecursiveAction(allLink);
+                    task.fork();
+                    tasks.add(task);
+                }
+            }
+        }
+
+        addResults(allLinks, tasks);
+
+        return allLinks;
     }
 
     private boolean linkFilter(String url) {
-        return (!url.contains("#")
-                &&(!url.isEmpty())
-                &&(!allLinks.contains(url))
-                && !url.endsWith(".pdf"))
-                && (url.matches(matchUrl))
-                &&(url.startsWith(rootUrl));
+
+        return (!url.isEmpty()
+                && url.startsWith(rootUrl)
+                && !allLinks.contains(url)
+                && !url.contains("#")
+                && !url.matches(matchUrl));
+    }
+
+    private void addResults(List<String> list, List<RecursiveAction> tasks) {
+        for (RecursiveAction item : tasks) {
+            list.addAll(item.join());
+        }
     }
 }

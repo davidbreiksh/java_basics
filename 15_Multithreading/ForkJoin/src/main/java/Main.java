@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Main {
 
-    private final static String url = "https://yandex.ru/";
+    private final static String url = "https://sendel.ru";
     private static final String path = "src/main/resources/map.txt";
     private static final Logger logger = LogManager.getLogger("FileAppender");
 
