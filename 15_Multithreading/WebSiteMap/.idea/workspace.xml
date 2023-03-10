@@ -4,30 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="766a42f3-e020-4a3a-b4bb-1690920b00ea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Node.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/RecursiveAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/maven/archetype.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/archetype-resources/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/archetype-resources/src/main/java/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/archetype-resources/src/test/java/AppTest.java" afterDir="false" />
+    <list default="true" id="766a42f3-e020-4a3a-b4bb-1690920b00ea" name="Changes" comment="done">
       <change afterPath="$PROJECT_DIR$/../../NoSQLRedis/Users/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../NoSQLRedis/Users/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../NoSQLRedis/Users/.idea/vcs.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../NoSQLRedis/Users/pom.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../NoSQLRedis/Users/src/main/java/Users.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../NoSQLRedis/Users/src/main/resources/META-INF/maven/archetype.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../NoSQLRedis/Users/src/main/resources/archetype-resources/pom.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../NoSQLRedis/Users/src/main/resources/archetype-resources/src/main/java/App.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../NoSQLRedis/Users/src/main/resources/archetype-resources/src/test/java/AppTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/.idea/libraries/Maven__log4j_log4j_1_2_17.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_14_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/.idea/libraries/Maven__org_apache_logging_log4j_log4j_core_2_14_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/.idea/libraries/Maven__org_jsoup_jsoup_1_14_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../NoSQLRedis/Users/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../NoSQLRedis/Users/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/ForkJoin.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/src/main/java/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/src/main/java/RecursiveAction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/src/main/resources/log4j2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/src/main/resources/map.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/target/classes/log4j2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ForkJoin/target/classes/map.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +67,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/david/IdeaProjects/java_basics/NoSQLRedis/Users",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -94,11 +97,23 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678195574516</updated>
-      <workItem from="1678195575642" duration="1782000" />
+      <workItem from="1678195575642" duration="2460000" />
     </task>
+    <task id="LOCAL-00001" summary="done">
+      <created>1678198568832</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1678198568832</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="done" />
+    <option name="LAST_COMMIT_MESSAGE" value="done" />
   </component>
 </project>
