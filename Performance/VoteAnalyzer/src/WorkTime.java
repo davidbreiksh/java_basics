@@ -24,14 +24,25 @@ public class WorkTime {
         periods.add(new TimePeriod(visit, visit));
     }
 
+//    public String toString() {
+//        StringBuilder builder = new StringBuilder();
+//        for(TimePeriod period : periods) {
+//            if (!builder.isEmpty()) {
+//                builder.append(", ");
+//            }
+//            builder.append(period);
+//        }
+//        return builder.toString();
+//    }
+
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        for(TimePeriod period : periods) {
-            if (!builder.isEmpty()) {
-                builder.append(", ");
+        String result = "";
+        for (TimePeriod period : periods) {
+            if (!result.isEmpty()) {
+                result += ", ";
             }
-            builder.append(period);
+            result += period;
         }
-        return builder.toString();
+        return result;
     }
 }
